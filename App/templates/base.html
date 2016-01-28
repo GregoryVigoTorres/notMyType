@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content="width=device-width, initial-scale=1, maximum-scale=1, height=device-height">
+
+    <link href="{{ url_for('static', filename='css/normalize.css') }}" media="all" type="text/css" rel="stylesheet"></link>
+    {% assets "public" %}
+        <link href="{{ ASSET_URL }}" media="all" type="text/css" rel="stylesheet"></link>
+    {% endassets %}
+
+    <style>
+        {{ fonts_css|safe }}
+    </style>
+
+    <title>{{ title }}</title>
+</head>
+<body>
+    {% block content %}{% endblock %}
+    {% assets "jquery-js-min" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+</body>
+</html>

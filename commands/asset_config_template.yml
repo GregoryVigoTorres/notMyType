@@ -1,0 +1,8 @@
+
+{{ name }}:
+    filters: {{ filters }}
+    output: {{ output }} 
+    contents:
+        {% for i in contents %} - {{ i }}
+        {% endfor %}
+

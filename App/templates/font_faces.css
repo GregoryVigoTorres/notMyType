@@ -1,0 +1,8 @@
+{% for font, url in font_styles %}
+    @font-face {
+        font-family: "{{ font.post_script_name }}";
+        src: url("{{ url }}");
+        style: "{{ font.style }}";
+    }
+
+{% endfor %}

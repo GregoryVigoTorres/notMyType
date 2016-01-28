@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id='main-container'>
+    <nav>
+        <header>Fonts from Google</header>
+        <ul>sort by
+            <li>Name</li>
+            <li>Category</li>
+            <li>Weight</li>
+        </ul>
+    </nav>
+
+    <div id='center-col'>
+        {% for i in fonts %}
+        <div class='font-container {{ i.id }}'>
+            <span class='font-name' style={{ get_font_family(i)|safe }}>{{ i.name }}</span>
+            <table class="font-info">
+                <thead>
+                    <tr>
+                        <th>category</th>
+                        <th>designer</th>
+                        <th>license</th>
+                        <th>subsets</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ i.category.Category|lower|replace('_', ' ') }}</td>
+                        <td>{{ i.designer }}</td>
+                        <td>{{ i.license }}</td>
+                        <td>{% for subset in i.subsets %} {{ subset }}, {% endfor %}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <ul class='font-list'>
+                {% for font in i.fonts %}
+                    <li style="font-family: {{ font.post_script_name|safe }}, sans-serif">
+                        <a href="#">{{ font.post_script_name }}</a>, 
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+
+    </div>
+</div> <!-- main-container -->
+{% endblock %}

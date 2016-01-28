@@ -1,0 +1,7 @@
+venv
+vendor
+__pycache__
+.webassets-cache
+instance/config.py
+notes.txt
+assets.yml
