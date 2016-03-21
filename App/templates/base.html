@@ -8,17 +8,51 @@
     {% assets "public" %}
         <link href="{{ ASSET_URL }}" media="all" type="text/css" rel="stylesheet"></link>
     {% endassets %}
-
-    <style>
-        {{ fonts_css|safe }}
-    </style>
-
     <title>{{ title }}</title>
 </head>
 <body>
+    <!-- put nav in its own block -->
+    <nav>
+        <header>Fonts from Google</header>
+        <ul>filter by
+            <li>Name</li>
+            <li>Category</li>
+            <li>Weight</li>
+        </ul>
+    </nav>
+    <ul id="fonts-by-letter">
+        <li><span id="a">a</span></li>
+        <li><span id="b">b</span></li>
+        <li><span id="c">c</span></li>
+        <li><span id="d">d</span></li>
+        <li><span id="e">e</span></li>
+        <li><span id="f">f</span></li>
+        <li><span id="g">g</span></li>
+        <li><span id="h">h</span></li>
+        <li><span id="i">i</span></li>
+        <li><span id="j">j</span></li>
+        <li><span id="k">k</span></li>
+        <li><span id="l">l</span></li>
+        <li><span id="m">m</span></li>
+        <li><span id="n">n</span></li>
+        <li><span id="o">o</span></li>
+        <li><span id="p">p</span></li>
+        <li><span id="q">q</span></li>
+        <li><span id="r">r</span></li>
+        <li><span id="s">s</span></li>
+        <li><span id="t">t</span></li>
+        <li><span id="u">u</span></li>
+        <li><span id="v">v</span></li>
+        <li><span id="w">w</span></li>
+        <li><span id="x">x</span></li>
+        <li><span id="y">y</span></li>
+        <li><span id="z">z</span></li>
+    </ul>
+
     {% block content %}{% endblock %}
     {% assets "jquery-js-min" %}
         <script src="{{ ASSET_URL }}"></script>
     {% endassets %}
+    <script src="{{ url_for('static', filename='js/gfont_viewer.js') }}"></script>
 </body>
 </html>

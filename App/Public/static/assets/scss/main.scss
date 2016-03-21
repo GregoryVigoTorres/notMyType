@@ -15,30 +15,58 @@ header {
     font-weight: 800;
 }
 
+/* colors and margins */
+$dark_bg: #212121;
+$light_fg: #D2D2D2;
+
+$nav-width: 14rem;
+nav {
+    display: inline-block;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: 10;
+    vertical-align: top;
+    width: $nav-width;
+    height: 100%;
+    background-color: $dark_bg; 
+    color: $light_fg; 
+
+    ul li {
+        font-weight: 800;
+    }
+}
+
+#fonts-by-letter {
+    background-color: rgba(0,0,0,0.7);
+    color: $light_fg;
+    padding: 0 2rem 0 0;
+    margin: 0 0 0 0;
+    top: 0;
+    right: 0;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    text-align: right;
+    cursor: default;
+    font-weight: 800;
+
+    li {
+        display: inline-block;
+        padding: 3px 8px 3px 8px;
+        &:hover {
+            background-color: black;
+        }
+    }
+}
+
 #main-container {
     min-height: 100%;
     margin: 2rem 0 0 0;
-    $nav-width: 14rem;
-
-    nav {
-        display: inline-block;
-        position: fixed;
-        top:0;
-        left:0;
-        vertical-align: top;
-        width: $nav-width;
-        height: 100%;
-        background-color: #212121;
-        color: #D2D2D2;
-
-        ul li {
-            font-weight: 800;
-        }
-    }
 
     #center-col {
         vertical-align:top;
-        max-width: 75%;
+        width: 75%;
         position: relative;
         top: 0;
         left: $nav-width;
@@ -92,6 +120,73 @@ header {
                     }
                 }
             }
+        }
+    }
+}
+
+$light-gray: #9B9999;
+.specimen-view {
+    // applied to main-container center-col when...
+    display: flex !Important;
+    justify-content: center;
+    flex-flow: row wrap;
+    padding-top: 3rem;
+}
+
+#close-specimen {
+    text-align: center;
+    color: $light-gray;
+    font-weight: 800;
+    cursor: default;
+
+    span:hover {
+        color: black;
+    }
+}
+
+.specimen {
+    flex: 0 0 15%; 
+    text-align: center;
+    border: 1px solid  $light-gray;
+
+    p {
+        align-self: flex-end; 
+        flex: 0 0 auto;
+        min-height: 51px;
+        padding-top: 1rem;
+    }
+
+    p:nth-child(2) {
+        font-family: sans-serif !Important;
+        font-weight: 800 !Important;
+        font-size: 85% !Important;
+        border-top: 1px solid $light-gray;
+        color: $light-gray;
+    }
+}
+
+#next-prev-container {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+}
+
+#next-prev-fonts {
+    display: inline-block;
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+    cursor: default;
+    font-weight: 800;
+    padding: 6px 0 6px 0;
+
+    span {
+        padding: 6px 14px;
+    }
+
+    #next, #prev {
+        &:hover {
+            background-color: black;
         }
     }
 }

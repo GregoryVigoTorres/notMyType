@@ -1,14 +1,9 @@
-{% extends 'base.html' %}
+{% if not xhr %}{% extends 'base.html' %}{% endif %}
 {% block content %}
 <div id='main-container'>
-    <nav>
-        <header>Fonts from Google</header>
-        <ul>sort by
-            <li>Name</li>
-            <li>Category</li>
-            <li>Weight</li>
-        </ul>
-    </nav>
+    <style>
+        {{ fonts_css|safe }}
+    </style>
 
     <div id='center-col'>
         {% for i in fonts %}
@@ -36,7 +31,7 @@
             <ul class='font-list'>
                 {% for font in i.fonts %}
                     <li style="font-family: {{ font.post_script_name|safe }}, sans-serif">
-                        <a href="#">{{ font.post_script_name }}</a>, 
+                        <a href="{{ url_for('Public.get_specimen', fontid=font.id) }}">{{ font.post_script_name }}</a> 
                     </li>
                 {% endfor %}
             </ul>
@@ -44,5 +39,13 @@
         {% endfor %}
 
     </div>
-</div> <!-- main-container -->
+
+    <div id="next-prev-container">
+    <div id="next-prev-fonts">
+        <span id='prev' data-prev_offset="{{ prev_offset }}">&lt; previous</span>
+        <span>({{ fonts[0].name }}</span> - <span>{{ fonts[-1].name }})</span>
+        <span id='next' data-next_offset="{{ next_offset }}">next &gt;</span>
+    </div>
+    </div>
+</div>
 {% endblock %}

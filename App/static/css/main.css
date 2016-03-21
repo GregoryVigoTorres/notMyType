@@ -1,5 +1,195 @@
 @media -sass-debug-info{filename{}line{font-family:\000031}}
+body {
+  font-family: "sans-serif";
+}
+
+@media -sass-debug-info{filename{}line{font-family:\000035}}
 p {
   margin: 0 0 0 0;
   padding: 0 0 0 0;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000310}}
+ul {
+  list-style: none;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000314}}
+header {
+  font-weight: 800;
+}
+
+/* colors and margins */
+@media -sass-debug-info{filename{}line{font-family:\0000323}}
+nav {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  vertical-align: top;
+  width: 14rem;
+  height: 100%;
+  background-color: #212121;
+  color: #D2D2D2;
+}
+@media -sass-debug-info{filename{}line{font-family:\0000335}}
+nav ul li {
+  font-weight: 800;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000340}}
+#fonts-by-letter {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #D2D2D2;
+  padding: 0 2rem 0 0;
+  margin: 0 0 0 0;
+  top: 0;
+  right: 0;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  text-align: right;
+  cursor: default;
+  font-weight: 800;
+}
+@media -sass-debug-info{filename{}line{font-family:\0000354}}
+#fonts-by-letter li {
+  display: inline-block;
+  padding: 3px 8px 3px 8px;
+}
+@media -sass-debug-info{filename{}line{font-family:\0000357}}
+#fonts-by-letter li:hover {
+  background-color: black;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000363}}
+#main-container {
+  min-height: 100%;
+  margin: 2rem 0 0 0;
+}
+@media -sass-debug-info{filename{}line{font-family:\0000367}}
+#main-container #center-col {
+  vertical-align: top;
+  width: 75%;
+  position: relative;
+  top: 0;
+  left: 14rem;
+  display: inline-block;
+}
+@media -sass-debug-info{filename{}line{font-family:\0000375}}
+#main-container #center-col .font-container {
+  border: 1px solid #777777;
+  margin: 1.3rem 0 1.3rem 1.3rem;
+  padding: 1.3rem;
+}
+@media -sass-debug-info{filename{}line{font-family:\0000380}}
+#main-container #center-col .font-container strong {
+  font-weight: 800;
+  font-size: 1.3rem;
+}
+@media -sass-debug-info{filename{}line{font-family:\0000385}}
+#main-container #center-col .font-container .font-name {
+  font-size: 2rem;
+}
+@media -sass-debug-info{filename{}line{font-family:\0000391}}
+#main-container #center-col .font-container .font-info {
+  /* this is a table */
+  margin-left: 2rem;
+  border-collapse: collapse;
+  font-size: .65rem;
+  color: #4A4A4A;
+  font-weight: 400;
+}
+@media -sass-debug-info{filename{}line{font-family:\0000397}}
+#main-container #center-col .font-container .font-info td {
+  border: 1px solid #B5B5B5;
+  padding: 2px 10px 3px 10px;
+}
+@media -sass-debug-info{filename{}line{font-family:\00003106}}
+#main-container #center-col .font-container .font-list {
+  padding: 0 0 0 0;
+  margin-left: 2rem;
+}
+@media -sass-debug-info{filename{}line{font-family:\00003110}}
+#main-container #center-col .font-container .font-list li {
+  display: inline-block;
+  padding: 4px 6px 2px 6px;
+}
+@media -sass-debug-info{filename{}line{font-family:\00003114}}
+#main-container #center-col .font-container .font-list li a {
+  color: inherit;
+  text-decoration: none;
+}
+@media -sass-debug-info{filename{}line{font-family:\00003117}}
+#main-container #center-col .font-container .font-list li a:hover {
+  background: rgba(106, 112, 133, 0.3);
+}
+
+@media -sass-debug-info{filename{}line{font-family:\00003128}}
+.specimen-view {
+  display: flex !Important;
+  justify-content: center;
+  flex-flow: row wrap;
+  padding-top: 3rem;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\00003136}}
+#close-specimen {
+  text-align: center;
+  color: #9B9999;
+  font-weight: 800;
+  cursor: default;
+}
+@media -sass-debug-info{filename{}line{font-family:\00003142}}
+#close-specimen span:hover {
+  color: black;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\00003147}}
+.specimen {
+  flex: 0 0 15%;
+  text-align: center;
+  border: 1px solid #9B9999;
+}
+@media -sass-debug-info{filename{}line{font-family:\00003152}}
+.specimen p {
+  align-self: flex-end;
+  flex: 0 0 auto;
+  min-height: 51px;
+  padding-top: 1rem;
+}
+@media -sass-debug-info{filename{}line{font-family:\00003159}}
+.specimen p:nth-child(2) {
+  font-family: sans-serif !Important;
+  font-weight: 800 !Important;
+  font-size: 85% !Important;
+  border-top: 1px solid #9B9999;
+  color: #9B9999;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\00003168}}
+#next-prev-container {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  text-align: center;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\00003175}}
+#next-prev-fonts {
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  cursor: default;
+  font-weight: 800;
+  padding: 6px 0 6px 0;
+}
+@media -sass-debug-info{filename{}line{font-family:\00003183}}
+#next-prev-fonts span {
+  padding: 6px 14px;
+}
+@media -sass-debug-info{filename{}line{font-family:\00003188}}
+#next-prev-fonts #next:hover, #next-prev-fonts #prev:hover {
+  background-color: black;
 }
