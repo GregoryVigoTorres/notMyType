@@ -5,8 +5,8 @@ from flask.ext.script import Manager, Command
 from App.App import create_app
 from commands.get_deps import GetDeps
 from commands.assets_config import GenDepConfig
-from commands.init_db import InitDB
-from commands.update_db import UpdateDB
+from commands.dbutils import InitDB, UpdateDB
+
 from flask.ext.assets import ManageAssets
 
 manager = Manager(create_app)

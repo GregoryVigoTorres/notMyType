@@ -1,11 +1,8 @@
-<div id="main-container">
-    <div id="close-specimen"><span>close</span></div>
-    <div id="center-col">
-        {% for cp, name in codepoints %}
-        <div class="specimen">
-            <p>&#{{cp}};</p>
-            <p>{{name}}</p>
-        </div>
-        {% endfor %}
+<div class="specimen-view">
+    {% for cp, name in codepoints %}
+    <div class="specimen">
+        <p style="font-family: {{ font.post_script_name }};">&#{{cp}};</p>
+        <p>{{name}} / &#38;&#35;{{ cp }};</p>
     </div>
+    {% endfor %}
 </div>

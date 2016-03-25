@@ -1,106 +1,126 @@
-import csv
 import logging
-import os.path
-from pathlib import Path
 
-from flask import render_template, current_app, url_for, request
-from fontTools.ttLib import TTFont
-
-from sqlalchemy import and_
-
-from App.core import public_bp, db
-from App.models.public import FontMeta, Font
-
-def get_font_css(fonts):
-    """ fonts for font-family and font-face css """
-    license_2_path = {'OFL':'ofl', 'APACHE2':'apache', 'UFL':'ufl'}
-    font_styles = []
-    for i in fonts:
-        for font in i.fonts:
-            fn = font.filename
-            parent_dir = license_2_path[i.license]
-            rel_path = '{}/{}/{}'.format(parent_dir, i.name.lower().replace(' ', ''), fn)
-
-            font_url = url_for('Gfont.static', filename=rel_path)
-            font_styles.append((font, font_url))
-
-    fonts_css = render_template('font_faces.css', font_styles=font_styles)
-
-    return fonts_css
-
-@public_bp.route('/getspecimen/<int:fontid>')
-def get_specimen(fontid):
-    """ generate specimen and get a lot of metadata """
-    ## FIX the model to make fontmeta available without weird joins
-    font, fontmeta = db.session.query(Font, FontMeta).filter(and_(Font.id==fontid, Font.name==FontMeta.name)).first()
-    # if none raise 404
-    
-    license_2_path = {'OFL':'ofl', 'APACHE2':'apache', 'UFL':'ufl'}
-    par_dir = license_2_path[fontmeta.license]
-    approot = current_app.config.get('APP_ROOT')
-    p = os.path.join(approot, 'App', 'Gfont', par_dir, font.name.lower().replace(' ', ''), font.filename)
-    # use a context manager cuz file is opened
-    ttf_font = TTFont(file=p)
-    # print(ttf_font.keys() )
-
-    codepoints = set()
-    for i in ttf_font['cmap'].tables:
-        print(i.getEncoding(), i.language, i.platformID, i.platEncID )
-        # print(dir(i))
-        codepoints.update(i.cmap.items()) ## this is what I need
-
-    ## sort by cp and filter out .notdef names
-    cp = sorted([i for i in codepoints if not i[1].startswith('.')], key=lambda i: i[0])
-
-    ## deal with subsets later
-    # print(codepoints)
-    ## get css @font-face 
-    
-    return render_template('specimen.html', codepoints=cp)
+from flask import (render_template, 
+                   request, 
+                   jsonify)
 
 
-@public_bp.route('/fontsbyletter/<letter>')
-@public_bp.route('/fontsbyletter/<letter>/<int:off_set>')
-def fonts_by_letter(letter, off_set=0):
-    """ AJAX """
-    Limit = 15
-    next_offset = off_set+Limit
-    if off_set:
-        prev_offset = off_set-Limit
+from sqlalchemy import (or_, desc)
+from sqlalchemy.orm import (contains_eager)
+
+from App.core import (public_bp, db)
+from App.models.public import (FontMeta, Font)
+
+from .lib import get_font_css
+
+
+@public_bp.route('/getfilteredfonts')
+def get_filtered_fonts():
+    """ fontOptions form 
+        accepts json for query params
+    """
+
+    # print(request.args)
+    page = int(request.args.get('page'))
+    limit = int(request.args.get('limit'))
+    name_sort = request.args.get('name')
+    subsets = request.args.getlist('subset')
+    designer_sort = request.args.get('designer')
+    weights = request.args.getlist('weight')
+    categories = request.args.getlist('category')
+    styles = request.args.getlist('style')
+    license = request.args.get('license') or ''
+
+    offset = page*limit
+
+    or_weights = [Font.weight == i for i in weights]
+    or_styles = [Font.style == i for i in styles]
+    sub_subsets = [FontMeta.subsets.contains(i) for i in subsets]
+    sub_categories = [FontMeta.category_ref == i for i in categories]
+
+    fq = db.session.query(FontMeta).\
+            filter(or_(*sub_subsets)).\
+            filter(or_(*sub_categories)).\
+            filter(FontMeta.license.like('%'+license)).\
+            join(FontMeta.fonts).\
+            filter(or_(*or_weights)).\
+            filter(or_(*or_styles)).\
+            options(contains_eager(FontMeta.fonts))
+
+    font_count = fq.count()
+    # before limit/offset
+
+    if name_sort == 'desc':
+        fq_ord = fq.order_by(desc(FontMeta.name)).order_by(desc(FontMeta.name))
+    elif designer_sort == 'desc':
+        fq_ord = fq.order_by(desc(FontMeta.name)).order_by(desc(FontMeta.designer))
     else:
-        prev_offset = off_set
+        fq_ord = fq.order_by(FontMeta.name)
 
-    fonts = db.session.query(FontMeta).filter(FontMeta.name.like(letter+'%')).order_by(FontMeta.name).offset(off_set).limit(Limit).all()
-    fonts_css = get_font_css(fonts)
+    font_objs = fq_ord.offset(offset).limit(limit).all()
+    fonts_css = get_font_css(font_objs)
+    font_data = [i.as_dict for i in font_objs]
+    for i in font_data:
+        try:
+            i['reg_font_face'] = i['fonts'][0]['post_script_name']
+        except Exception as E:
+            i['reg_font_face'] = 'Sans-serif'
+            logging.debug('get filtered fonts get font face error {}'.format(E))
 
-    tmpl_args = {'title':'GFont viewer', 
-                 'fonts': fonts, 
-                 'fonts_css':fonts_css, 
-                 'next_offset':next_offset, 
-                 'prev_offset':prev_offset,
-                 'xhr':request.is_xhr}
+    fonts_data = {'fontdata':font_data,
+                  'fontscss':fonts_css,
+                  'fontcount':font_count}
 
-    return render_template('index.html', **tmpl_args)
+    return jsonify(fonts_data)
+
+
+@public_bp.route('/getfonts')
+def get_fonts():
+    """ ajax endpoint 
+        return json with font info
+        with offset from query params
+    """
+    page = int(request.args.get('page', 0))
+    Limit = 15
+    off_set = page * Limit
+    letter = request.args.get('letter')
+    if letter:
+        fq = db.session.query(FontMeta).\
+                filter(FontMeta.name.like(letter+'%')).\
+                order_by(FontMeta.name)
+        font_count = fq.count()
+    else:
+        fq = db.session.query(FontMeta).order_by(FontMeta.name)
+        font_count = fq.count()
+
+    font_objs = fq.offset(off_set).limit(Limit).all()
+    fonts_css = get_font_css(font_objs)
+    fontdata = [i.as_dict for i in font_objs]
+    # get @font-face for each font-family, either *Regular or only font
+    for i in fontdata:
+        if len(i['fonts']) > 1:
+            reg_fams = [j['post_script_name'] for j in i['fonts'] 
+                        if 'Regular' in j['post_script_name']]
+            if len(reg_fams):
+                i['reg_font_face'] = reg_fams[0]
+        else:
+            try:
+                i['reg_font_face'] = i['fonts'][0]['post_script_name']
+            except IndexError as E:
+                # I don't really know why this happens
+                logging.info('get fonts by letter ERROR "{}"'.format(E))
+                i['reg_font_face'] = 'Sans-Serif'
+
+    fonts_data = {'fontdata':fontdata,
+                  'fontscss':fonts_css,
+                  'fontcount':font_count}
+
+    return jsonify(fonts_data)
+
 
 @public_bp.route('/')
-@public_bp.route('/getfonts/<int:off_set>')
-def index(off_set=0):
-    """ Public front page """
-    Limit = 15
-    next_offset = off_set+Limit
-    if off_set:
-        prev_offset = off_set-Limit
-    else:
-        prev_offset = off_set
-
-    fonts = db.session.query(FontMeta).order_by(FontMeta.name).offset(off_set).limit(Limit).all()
-    fonts_css = get_font_css(fonts)
-
-    tmpl_args = {'title':'GFont viewer', 
-                 'fonts': fonts, 
-                 'fonts_css':fonts_css, 
-                 'next_offset':next_offset, 
-                 'prev_offset':prev_offset,
-                 'xhr':request.is_xhr}
-
-    return render_template('index.html', **tmpl_args)
+def index():
+    """ Public front page 
+        this is the base html for the angular app
+    """
+    return render_template('base.html')

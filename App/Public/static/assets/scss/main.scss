@@ -18,8 +18,11 @@ header {
 /* colors and margins */
 $dark_bg: #212121;
 $light_fg: #D2D2D2;
+$light-gray: #9B9999;
+$gray-bg1: #BABAB9;
 
 $nav-width: 14rem;
+
 nav {
     display: inline-block;
     position: fixed;
@@ -27,13 +30,56 @@ nav {
     left:0;
     z-index: 10;
     vertical-align: top;
+    text-align: right;
+    font-size: .75rem;
+    padding: 0 1rem 0 0;
     width: $nav-width;
     height: 100%;
     background-color: $dark_bg; 
     color: $light_fg; 
 
-    ul li {
+    header {
+        text-align: left;
+        margin: 1rem 0 .3rem 0;
+    }
+
+    label {
+        display: block;
         font-weight: 800;
+        margin: 0 0 1rem 0;
+    }
+
+    select {
+        border: none;
+        padding: 0 5px 0 5px;
+        min-width: 8rem;
+        margin: 0 0 0 .4rem;
+    }
+
+    #clear-filters {
+        display: block;
+        font-weight: 800;
+        cursor: default;
+        margin-bottom: .5rem;
+
+        &:hover {
+            color: #DB894E;
+        }
+
+    }
+
+    button {
+        border: none;
+        background-color: white;
+        color: #007292;
+        font-weight: 800;
+        padding: .6rem .9rem;
+        margin: 1rem 0 1rem 0;
+        border-radius: 5px 5px;
+
+        &:hover {
+            background-color: #DBDBDB;
+        }
     }
 }
 
@@ -62,13 +108,12 @@ nav {
 
 #main-container {
     min-height: 100%;
-    margin: 2rem 0 0 0;
 
     #center-col {
         vertical-align:top;
         width: 75%;
         position: relative;
-        top: 0;
+        top: 4rem;
         left: $nav-width;
         display: inline-block;
 
@@ -110,8 +155,10 @@ nav {
                 li {
                     display: inline-block;
                     padding: 4px 6px 2px 6px;
+                    cursor: default;
 
-                    a {
+                    .font-link {
+                        text-decoration: none;
                         color: inherit;
                         text-decoration: none;
                         &:hover {
@@ -124,44 +171,163 @@ nav {
     }
 }
 
-$light-gray: #9B9999;
-.specimen-view {
-    // applied to main-container center-col when...
-    display: flex !Important;
-    justify-content: center;
-    flex-flow: row wrap;
-    padding-top: 3rem;
-}
+.specimen-meta-info {
+    /* nav */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: $dark-bg;
+    color: $light-fg;
+    padding: 9px;
 
-#close-specimen {
-    text-align: center;
-    color: $light-gray;
-    font-weight: 800;
-    cursor: default;
-
-    span:hover {
-        color: black;
+    a {
+        text-decoration: none;
+        color: #000;
+        box-shadow: 0px 4px 0px rgba(89, 152, 194, 0.5);
+        font-weight: 700;
+        margin: 0 5px -2px 0;
+        &:hover {
+            box-shadow: 0px 4px 0px rgba(89, 152, 194, 0.8);
+        }
     }
+
+    .specimen-title {
+        font-size: 1.5rem;
+    }
+
+    #show-nav {
+        color: $light-gray;
+        font-weight: 800;
+        cursor: default;
+        padding-right: 10px;
+
+        &:hover {
+            font-weight: 400;
+        }
+    }
+
+    #specimen-nav {
+       cursor: default; 
+       color: $light-gray;
+
+        p {
+            margin: 0 0 1rem 0;
+        }
+
+        .small {
+            font-size: .75rem;
+        }
+
+        .rjust {
+            text-align: right;
+        }
+        
+        span {
+            padding: 4px 6px 8px 6px;
+        }
+
+        span.has-action {
+            &:hover {
+                font-weight: 700;
+            }
+        }
+
+        .control-width {
+            max-width: 13rem;
+        }
+
+        a{
+            margin-bottom: 6px;
+            color: $light-gray;
+            text-decoration: none;
+            box-shadow: none;
+
+            &:hover {
+                color: yellow;
+            }
+        }
+    } 
 }
 
 .specimen {
-    flex: 0 0 15%; 
-    text-align: center;
-    border: 1px solid  $light-gray;
+    $dark-gray: #666665;
+    $darker-gray: #7D7D7C;
+    background-color: $gray-bg1;
+    margin-top: 2.5rem;
 
-    p {
-        align-self: flex-end; 
-        flex: 0 0 auto;
-        min-height: 51px;
-        padding-top: 1rem;
+    .block-name, .cat-name {
+        font-weight: 800;
+        padding: 4px;
+
+        .hide {
+            cursor: default;
+            font-size: .7rem;
+            &:hover {
+                color: $light-gray;   
+            }
+        }
     }
 
-    p:nth-child(2) {
-        font-family: sans-serif !Important;
-        font-weight: 800 !Important;
-        font-size: 85% !Important;
-        border-top: 1px solid $light-gray;
-        color: $light-gray;
+    .block-name {
+        margin-top: 1rem;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #000;
+        background-color: #fff;
+    }
+
+    .char-container {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: stretch;
+        justify-content: flex-start;
+        padding: 1.5rem;
+
+        .cat-name {
+            color: $dark-gray;
+            flex: 0 0 10%;
+            align-self: center;
+            margin: -2px;
+            font-size: 75%;
+            letter-spacing: 2px;
+        }
+
+        div {
+            flex: 0 0 10%;
+            background-color: #fff;
+            margin: 2px 2px 4px 2px;
+            text-align: center;
+            padding: 1rem 0 0 0;
+
+            .cp {
+                font-size: 1rem;
+                padding-bottom: .3rem;
+            }
+
+            .ent-name {
+                color: $light-gray;
+                border-top: 1px solid $light-gray;
+                font-weight: 700;
+                padding: .3rem 3px 1rem 3px;
+                font-size: .75rem;
+                word-break: break-all;
+            }
+        }
+    }
+}
+
+#back-to-top {
+    position: fixed;
+    bottom: 0px;
+    right:15%;
+    background-color: rgba(0,0,0,0.6);
+    padding: 24px;
+    color: white;
+    font-weight: 800;
+    cursor: default;
+
+    &:hover {
+        color: yellow;
     }
 }
 
@@ -170,6 +336,10 @@ $light-gray: #9B9999;
     width: 100%;
     bottom: 0;
     text-align: center;
+
+    .tiny-info {
+        font-size: .60rem;
+    }
 }
 
 #next-prev-fonts {
@@ -184,9 +354,13 @@ $light-gray: #9B9999;
         padding: 6px 14px;
     }
 
-    #next, #prev {
+    #next, #prev, #back-to-start {
         &:hover {
             background-color: black;
         }
+    }
+    
+    #back-to-start {
+        color: #9E9E9E;
     }
 }
