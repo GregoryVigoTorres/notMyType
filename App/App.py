@@ -9,7 +9,6 @@ from .core import load_blueprints, db
 from .Public import *
 
 
-
 csrf = CsrfProtect()
 logging.basicConfig(format='Flask App...%(message)s', level=logging.INFO)
 

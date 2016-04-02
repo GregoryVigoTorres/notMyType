@@ -4,7 +4,6 @@ from flask import (render_template,
                    request, 
                    jsonify)
 
-
 from sqlalchemy import (or_, desc)
 from sqlalchemy.orm import (contains_eager)
 
@@ -108,7 +107,9 @@ def get_fonts():
                 i['reg_font_face'] = i['fonts'][0]['post_script_name']
             except IndexError as E:
                 # I don't really know why this happens
+                # this happens when the fonts have inexplicably disappeared from the database
                 logging.info('get fonts by letter ERROR "{}"'.format(E))
+                logging.info(i)
                 i['reg_font_face'] = 'Sans-Serif'
 
     fonts_data = {'fontdata':fontdata,

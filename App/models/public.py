@@ -53,7 +53,7 @@ class Category(db.Model):
     category_rel = relationship('FontMeta', backref='category') 
 
     def __repr__(self):
-        return '<{}>'.format(self.Category)
+        return '{}'.format(self.Category)
 
 class FontMeta(db.Model):
     __tablename__ = 'fontmeta'
@@ -94,4 +94,4 @@ class FontMeta(db.Model):
         return d
 
     def __repr__(self):
-        return '<{}[{}]>'.format(self.name, self.category)
+        return '<[{}]{}[{}]>'.format(self.id, self.name, self.category)

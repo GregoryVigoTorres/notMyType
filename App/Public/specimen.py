@@ -25,16 +25,18 @@ def get_specimen(fontid):
     fn = get_font_abs_path(font, fontmeta)
     ttf_font = TTFont(file=fn)
 
-    # get unicode (0) as platform_id, if available
+    plat_ids = [i.platformID for i in ttf_font['cmap'].tables]
+    if 0 not in plat_ids:
+        platform_id = 3 # microsoft
+    elif 3 not in plat_ids:
+        platform_id = 1 # apple quick draw
+    else:
+        platform_id = 0 # unicode
+
     charmap = set()
     for i in ttf_font['cmap'].tables:
-        if i.platformID == 0:
+        if i.platformID == platform_id:
             charmap.update(i.cmap.items()) 
-        elif i.platformID == 3:
-            charmap.update(i.cmap.items()) 
-        else:
-            charmap.update(i.cmap.items()) 
-
 
     # sort charmap by codepoints and filter out . names
     # blocks are determined by codepoint ranges, (see unicode_blocks.json)

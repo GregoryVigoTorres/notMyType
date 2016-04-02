@@ -67,7 +67,7 @@ fontList.controller('fontController',
     };
 
     $scope.getFontsByLetter = function(eve) {
-        $scope.letter = eve.srcElement.id;
+        $scope.letter = eve.target.id;
         $scope.currentPage = 0;
         $scope.filtered = false;
         $scope.optionsform = defaultFormOptions;
