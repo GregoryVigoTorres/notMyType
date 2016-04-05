@@ -1,6 +1,6 @@
-<div id="fontlist" ng-controller="fontController">
+<div id="main-container" ng-controller="fontController">
+    <style>{{ fontlist.fontscss }}</style>
     <nav>
-        <header>Fonts from Google</header>
         <form id="font-options">
             <header>filters</header>
             
@@ -8,49 +8,49 @@
             <span id="clear-filters" ng-show="filtered" ng-click="clearFilters()">remove filters</span>
 
             <label class="has-menu">Name
-                <select name='byname' ng-model="optionsform.name">
-                    <option value='asc'>a-z</option>
+                <select name='byname' size='2' ng-model="optionsform.name">
+                    <option value='asc' selected='true'>a-z</option>
                     <option value='desc'>z-a</option>
-                    <option value='rand'>random</option>
+                    <!-- <option value='rand'>random</option> -->
                 </select>
             </label>
 
             <label class="has-menu">Category
-                <select name='bycategory' multiple=true ng-model="optionsform.category">
-                    <option value='SANS_SERIF' selected>Sans serif</option>
-                    <option value='SERIF' selected>Serif</option>
-                    <option value='MONOSPACE'>Monospace</option>
-                    <option value='DISPLAY'>Display</option>
-                    <option value='HANDWRITING'>Handwriting</option>
+                <select name="bycategory" size="4" multiple="true" ng-model="optionsform.category">
+                    <option value="SANS_SERIF" selected="true">Sans serif</option>
+                    <option value="SERIF" selected="true">Serif</option>
+                    <option value="MONOSPACE">Monospace</option>
+                    <option value="DISPLAY">Display</option>
+                    <option value="HANDWRITING">Handwriting</option>
                 </select>
             </label>
 
             <label class="has-menu">Weight
-                <select name='byweight' multiple=true ng-model="optionsform.weight">
-                    <option value='100'>100</option>
-                    <option value='200'>200</option>
-                    <option value='300'>300</option>
-                    <option value='400' selected>400</option>
-                    <option value='500'>500</option>
-                    <option value='600'>600</option>
-                    <option value='700'>700</option>
-                    <option value='800'>800</option>
-                    <option value='900'>900</option>
+                <select name="byweight" size="4" multiple="true" ng-model="optionsform.weight">
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="300">300</option>
+                    <option value="400" selected="true">400</option>
+                    <option value="500">500</option>
+                    <option value="600">600</option>
+                    <option value="700">700</option>
+                    <option value="800">800</option>
+                    <option value="900">900</option>
                 </select>
             </label>
                 
             <label class="has-menu">Style
-                <select name='bystyle' multiple=true ng-model="optionsform.style">
-                    <option value='normal' selected>Normal</option>
+                <select name='bystyle' size='2' multiple=true ng-model="optionsform.style">
+                    <option value='normal' selected='true'>Normal</option>
                     <option value='italic'>Italic</option>
                 </select>
             </label>
 
             <label class="has-menu">Subsets
-                <select name='bysubset' multiple=true ng-model="optionsform.subset">
-                    <option value='latin' selected>latin</option>
-                    <option value='latin-ext' selected>latin-ext</option>
-                    <option value='menu' selected>menu</option>
+                <select name='bysubset' size='4' multiple=true ng-model="optionsform.subset">
+                    <option value='latin' selected='true'>latin</option>
+                    <option value='latin-ext' selected='true'>latin-ext</option>
+                    <option value='menu' selected='true'>menu</option>
                     <option value='arabic'>arabic</option>
                     <option value='bengali'>bengali</option>
                     <option value='cyrillic'>cyrillic</option>
@@ -78,89 +78,84 @@
             </label>
 
             <label class="has-menu">Designer
-                <select name='bydesigner' ng-model="optionsform.designer">
-                    <option value='asc' selected>a-z</option>
+                <select name='bydesigner' size='2' ng-model="optionsform.designer">
+                    <option value='asc' selected='true'>a-z</option>
                     <option value='desc'>z-a</option>
-                    <option value='rand'>random</option>
+                    <!-- <option value='rand'>random</option> -->
                 </select>
             </label>
 
             <label class="has-menu">License
-                <select name="license" ng-model="optionsform.license">
-                    <option value='' selected>any</option>
+                <select name="license" size='4' ng-model="optionsform.license">
+                    <option value='' selected='true'>any</option>
                     <option value='OFL'>ofl</option>
                     <option value='UFL'>ufl</option>
                     <option value='APACHE2'>Apache 2</option>
                 </select>
             </label>
         </form>
+        <p class="small">fonts from</p>
+        <p><a href='https://github.com/google/fonts' target='blank'>https://github.com/google/fonts</a></p>
     </nav>
 
-    <div id="font-families">
-        <ul id="fonts-by-letter">
-            <li><span ng-click="getFontsByLetter($event)" id="">all</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="a">a</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="b">b</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="c">c</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="d">d</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="e">e</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="f">f</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="g">g</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="h">h</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="i">i</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="j">j</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="k">k</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="l">l</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="m">m</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="n">n</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="o">o</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="p">p</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="q">q</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="r">r</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="s">s</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="t">t</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="u">u</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="v">v</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="w">w</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="x">x</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="y">y</span></li>
-            <li><span ng-click="getFontsByLetter($event)" id="z">z</span></li>
-        </ul>
+    <ul id="fonts-by-letter">
+        <li><span ng-click="getFontsByLetter($event)" id="">all</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="a">a</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="b">b</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="c">c</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="d">d</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="e">e</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="f">f</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="g">g</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="h">h</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="i">i</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="j">j</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="k">k</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="l">l</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="m">m</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="n">n</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="o">o</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="p">p</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="q">q</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="r">r</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="s">s</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="t">t</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="u">u</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="v">v</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="w">w</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="x">x</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="y">y</span></li>
+        <li><span ng-click="getFontsByLetter($event)" id="z">z</span></li>
+    </ul>
 
-        <!-- {% raw %} -->
-        <style>{{ fontlist.fontscss }}</style>
+    <div id="fontlist-container">
+        <div ng-repeat="i in fontlist.fontdata track by $index" class='font-container'>
+            <span class="font-name" style="font-family: {{ i.reg_font_face }};">{{ i.name }}</span>
+            <table class="font-info">
+                <thead>
+                    <tr>
+                        <th>category</th>
+                        <th>designer</th>
+                        <th>license</th>
+                        <th>subsets</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ i.category }}</td>
+                        <td>{{ i.designer }}</td>
+                        <td>{{ i.license }}</td>
+                        <td><span ng-repeat="s in i.subsets">{{ s }},&nbsp;</span></td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <div id="main-container">
-            <div id='center-col'>
-                <div ng-repeat="i in fontlist.fontdata track by $index" class='font-container'>
-                    <span class="font-name" style="font-family: {{ i.reg_font_face }};">{{ i.name }}</span>
-                    <table class="font-info">
-                        <thead>
-                            <tr>
-                                <th>category</th>
-                                <th>designer</th>
-                                <th>license</th>
-                                <th>subsets</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{ i.category }}</td>
-                                <td>{{ i.designer }}</td>
-                                <td>{{ i.license }}</td>
-                                <td><span ng-repeat="s in i.subsets">{{ s }},&nbsp;</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <ul class='font-list'>
-                        <li ng-repeat="font in i.fonts track by $index" 
-                            style="font-family: {{ font.post_script_name }}, sans-serif; font-weight: {{ font.weight }};">
-                            <a class="font-link" href="#/specimen/{{ font.id }}">{{ font.post_script_name }}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <ul class='font-list'>
+                <li ng-repeat="font in i.fonts track by $index" 
+                    style="font-family: {{ font.post_script_name }}, sans-serif; font-weight: {{ font.weight }};">
+                    <a class="font-link" href="#/specimen/{{ font.id }}">{{ font.post_script_name }}</a>
+                </li>
+            </ul>
         </div>
 
         <div id="next-prev-container">
@@ -177,6 +172,5 @@
                 <p class="tiny-info"> {{ (limit*currentPage)+1 }} to {{ (limit*currentPage)+fontlist.fontdata.length }} of {{ fontlist.fontcount }} fonts</p>
             </div>
         </div>
-        <!-- {% endraw %} -->
-    </div> <!-- #font-families -->
-</div> <!-- fontlist -->
+    </div> <!-- fontlist-container -->
+</div> <!-- main-container -->

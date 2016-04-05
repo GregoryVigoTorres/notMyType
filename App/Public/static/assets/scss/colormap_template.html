@@ -1,0 +1,221 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+    body {
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+    }
+
+    #all-colors {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .color-container {
+        vertical-align: top;
+        margin: 2rem;
+        width: 6rem;
+        height: 6rem;
+        padding: 1rem;
+        text-align: center;
+    }        
+
+    .color-container span {
+        font-weight: 800;
+        padding: 0 0 .7rem 0;
+    }
+
+    .button-container {
+        padding: 2rem;
+        text-align: center;
+        border-bottom: 1px solid black;
+    }
+
+    button {
+        padding: 1rem 1.3rem;
+        margin:0 1rem 0 1rem;
+        border: 1px solid black;
+        background-color: white;
+        color: black;
+        font-weight: 700;
+    }
+
+    button.selected {
+        border: 1px solid #C41616;
+    }
+
+    button:hover {
+        background-color: #B9B9B9;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="button-container">
+        <button id="by-r">Red</button>
+        <button id="by-g">Green</button>
+        <button id="by-b">Blue</button>
+        <button id="reset">Reset</button>
+        <button id="by-h">Hue</button>
+        <button id="by-s">Saturation</button>
+        <button id="by-v">Value</button>
+
+        <button id="by-name">Name</button>
+        
+        <p>rgb, hsv, SCSS name</p>
+    </div>
+
+    <div id="all-colors">
+    {% for i in all_colors %}
+        <div class="color-container"
+             data-rgb="{{ i[0] }}"
+             data-hsv="{{ i[1] }}"
+             data-defaultorder="{{ loop.index }}"
+            style="background-color: {{ i[0] }} 
+            {% if i[1][2] == 100 %} border: 1px solid black; {% endif %}
+            {% if i[1][2] > 35 %} color: black; {% else %} color: white; {% endif%}
+            order: {{ loop.index }};">
+            <span>{{ i[0] }}</span>
+            <br>
+            <span>{{ i[1] }}</span>
+            <br>
+            <span class="name">{{ i[2] or '' }}</span>
+        </div> 
+    {% endfor %}
+    </div>
+</body>
+
+<script>
+    var containers = Array.from(document.getElementsByClassName('color-container'));
+    /* TODO: sort ascending or descending */
+    var hbutt= document.getElementById('by-h'); 
+    var sbutt= document.getElementById('by-s'); 
+    var vbutt= document.getElementById('by-v'); 
+
+    var rbutt= document.getElementById('by-r'); 
+    var gbutt= document.getElementById('by-g'); 
+    var bbutt= document.getElementById('by-b'); 
+    var namebutt= document.getElementById('by-name'); 
+    
+    var resetButt= document.getElementById('reset'); 
+
+    var buttons = Array.from(document.getElementsByTagName('button'));
+
+    var selDesel = function(eve) {
+        buttons.forEach((i, ind, arr) => i.classList.remove('selected')); 
+        this.classList.add('selected');
+    };
+
+    buttons.forEach((i, ind, arr) => i.addEventListener('click', selDesel));
+
+    var get_hsv = function(containers) {
+        /* for every element return an {h,s,v} Object*/
+        var hsvIndex = containers.map(function(i, ind, arr) {
+            var data = i.dataset.hsv.slice(1, -1).split(',');
+            var hsvData = {
+                h: parseInt(data[0], 10),
+                s: parseInt(data[1], 10),
+                v: parseInt(data[2], 10),
+                index: ind 
+            };
+            return hsvData;
+        });
+        return hsvIndex;
+    };
+
+    var get_rgb = function(containers) {
+        /* for every element return {r,g,b} object */
+        var rgb_vals = containers.map(function(i, ind, arr) { 
+            var data = i.dataset.rgb; 
+            if (data.indexOf('rgba')) {
+                // this is hex rgb
+                var vals = data.substr(1, 6);
+                var rgb_vals = {
+                    r: parseInt(vals.substring(0, 2), 16),
+                    g: parseInt(vals.substring(2, 4), 16),
+                    b: parseInt(vals.substring(4, 6), 16),
+                    index: ind
+                }; 
+            } else {
+                var rgba_str = data.slice(5, -2);
+                var rgb_arr = rgba_str.split(',');
+                var rgb_vals = {
+                    r: parseInt(rgb_arr[0], 10),
+                    g: parseInt(rgb_arr[1], 10),
+                    b: parseInt(rgb_arr[2], 10),
+                    index: ind
+                }; 
+            }
+            return rgb_vals;
+        });
+        return rgb_vals
+    };
+
+
+    resetButt.addEventListener('click', function(eve) {
+        containers.map(i => i.style.order = i.dataset.defaultorder);
+        this.classList.add('selected');
+    });
+
+    /* sort by Red */
+    rbutt.addEventListener('click', function(eve) {
+        // deselectAll();
+        // this.classList.add('selected');
+
+        var rgbIndex = get_rgb(containers);
+        var Sorted = rgbIndex.sort((a,b) => a.r-b.r);
+        Sorted.forEach((i, ind, arr) => containers[i.index].style.order = ind);
+    });
+
+    /* sort by Green */
+    gbutt.addEventListener('click', function(eve) {
+        var rgbIndex = get_rgb(containers);
+        var Sorted = rgbIndex.sort((a,b) => a.g-b.g);
+        Sorted.forEach((i, ind, arr) => containers[i.index].style.order = ind);
+    });
+
+    /* sort by Blue */
+    bbutt.addEventListener('click', function(eve) {
+        var rgbIndex = get_rgb(containers);
+        var Sorted = rgbIndex.sort((a,b) => a.b-b.b);
+        Sorted.forEach((i, ind, arr) => containers[i.index].style.order = ind);
+    });
+
+    namebutt.addEventListener('click', function(eve) {
+        var nameSort = containers.sort(function(a, b) {
+            aname = a.getElementsByClassName('name')[0].innerText;
+            bname = b.getElementsByClassName('name')[0].innerText;
+            if (aname < bname) { return -1; };
+            if (aname > bname) { return 1; };
+            if (aname === bname) { return 0; };
+        }); 
+
+        nameSort.forEach(function(i, ind, arr) {
+            containers[ind].style.order = ind;
+        });
+    });
+
+    /* sort by Hue */
+    hbutt.addEventListener('click', function(eve) {
+        var hsvIndex = get_hsv(containers);
+        var hSorted = hsvIndex.sort((a, b) => a.h-b.h );
+        hSorted.forEach((i, ind, arr) => containers[i.index].style.order = ind);
+    });
+
+    /* sort by Saturation */
+    sbutt.addEventListener('click', function(eve) {
+        var hsvIndex = get_hsv(containers);
+        var sSorted = hsvIndex.sort((a, b) => a.s-b.s );
+        sSorted.forEach((i, ind, arr) => containers[i.index].style.order = ind);
+    });
+
+    /* sort by Value */
+    vbutt.addEventListener('click', function(eve) {
+        var hsvIndex = get_hsv(containers);
+        var vSorted = hsvIndex.sort((a, b) => a.v-b.v );
+        vSorted.forEach((i, ind, arr) => containers[i.index].style.order = ind);
+    });
+</script>
+</html>

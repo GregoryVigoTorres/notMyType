@@ -1,5 +1,9 @@
 'use-strict'
 
+/*
+ * Controllers, factories and a Directive 
+ * */
+
 /* factories */
 fontApp.factory('fontFamilies', ['$resource', function($resource) {
     return $resource('getfonts', {'page':0, 'letter':null, 'limit':15}, {
@@ -102,38 +106,21 @@ gSpecimen.controller('specimenCtrl',
     ['$scope', '$route', '$location', '$anchorScroll', '$filter', '$window', 'getSpecimen', 
     function($scope, $route, $location, $anchorScroll, $filter, $window, getSpecimen) {
         $scope.chardata = getSpecimen.get($route.current.params);
-        $scope.nav_visible = false;
-        $scope.show_all_in_family = false;
-        $scope.show_unicode_blocs = false;
-        $scope.copyright_visible = false;
 
-        $scope.toggleNav = function(eve) {
-            $scope.nav_visible = !$scope.nav_visible;
-        };
-
-        $scope.closeNav = function() {
-            $scope.nav_visible = false;
-        };
-
-        $scope.showAllFonts = function() {
-            $scope.show_all_in_family = !$scope.show_all_in_family;
-        };
-
-        $scope.showUnicodeBlocks = function() {
-            $scope.show_unicode_blocks = !$scope.show_unicode_blocks;
-        };
-
-        $scope.showCopyright = function() {
-            $scope.copyright_visible = !$scope.copyright_visible;
+        $scope.navVisible = false;
+        $scope.toggleNavVisible = function(eve) {
+            $scope.navVisible = !$scope.navVisible;
+            $anchorScroll(0);
         };
 
         $scope.scrollToBlock = function(name) {
             var hash = $filter('strReplace')(name, ' ', '-');
             $anchorScroll(hash);
-            $scope.nav_visible = false;
+            $scope.navVisible = false;
         };
 
         $scope.showBackToTop=false;
+        /* show the "top" button */
         $window.onscroll = function() {
             if ($window.scrollY > 800 && !$scope.showBackToTop) { 
                 /* prevent apply from getting called too often */
@@ -149,5 +136,75 @@ gSpecimen.controller('specimenCtrl',
             $scope.showBackToTop=false;
             $anchorScroll(0);
         };
+}]);
 
+gSpecimen.directive('lipsum', function() {
+    return {
+        restrict: 'E',
+        templateUrl: '/static/partials/lipsum.html'
+    }
+});
+
+gSpecimen.controller('lipsumController', ['$scope', '$anchorScroll', '$filter', 
+function($scope, $anchorScroll, $filter) {
+    $scope.lipsumVisible = false;
+    $scope.lipsumMsg = 'show';
+    $scope.lipsumSize = 1;
+
+    $scope.toggleLipsumVisible = function(eve) {
+        $scope.lipsumVisible = !$scope.lipsumVisible;
+        if ($scope.lipsumVisible) {
+            $scope.lipsumMsg = 'hide';
+            $anchorScroll(0);
+        } else {
+            $scope.lipsumMsg = 'show';
+        }
+    };
+
+    $scope.invertLipsumColors = function(eve) {
+        if (!$scope.lipsumColors) {
+            $scope.lipsumColors = 'dark-on-light'
+        } else {
+            $scope.lipsumColors = undefined;
+        };
+    };
+
+    $scope.resetLipsum = function(eve) {
+        $scope.lipsumColors = undefined;
+        $scope.lipsumSize = 1;
+    };
+
+    $scope.$watch('chardata.entities', function() {
+        if ($scope.chardata.entities) {
+            $scope.uniRangeNames = {};
+            $scope.punc = {};
+
+            $scope.chardata.entities.forEach(function(ent) {
+                ent.cats.forEach(function(cat) { 
+                    if (cat.name.includes('Letter') && cat.chars.length > 20) {
+                        $scope.uniRangeNames[ent.name] = true;
+                    };
+
+                    if (cat.name.includes('Punctuation')) {
+                        cat.chars.forEach(function(ch) {
+                            if (!$scope.punc[ch.block]) {
+                                $scope.punc[ch.block] = [];
+                            };
+                            $scope.punc[ch.block].push(ch.cp);
+                        }); //chars.forEach
+                    }; // if Punctuation
+                    
+                    if (cat.name.includes('Currency')) {
+                        cat.chars.forEach(function(ch) {
+                            if (!$scope.punc[ch.block]) {
+                                $scope.punc[ch.block] = [];
+                            };
+                            $scope.punc[ch.block].push(ch.cp);
+                        }); //chars.forEach
+                    }; // if Currency
+
+                }); // cats.forEach
+            }); // entities.forEach
+        }; // if entities
+    }); // scope.watch
 }]);
