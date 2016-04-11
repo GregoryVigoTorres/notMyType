@@ -66,10 +66,9 @@ def load_blueprints(app):
             if isinstance(i, Blueprint):
                 app.register_blueprint(i)
 
-admin_bp = _bp_factory('Admin', '/admin')
 public_bp = _bp_factory('Public', '')
 gfont_part = partial(_bp_factory, 'Gfont', '', config_args={'static_folder':'GFONT_ROOT_DIR'})
 
-Blueprints = [public_bp, admin_bp, gfont_part]
+Blueprints = [public_bp, gfont_part]
 
 ub = unicodeBlocks()

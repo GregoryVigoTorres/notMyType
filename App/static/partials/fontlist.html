@@ -4,11 +4,11 @@
         <form id="font-options">
             <header>filters</header>
             
-            <button type="submit" ng-click="fontsByOptions()">search</button>
-            <span id="clear-filters" ng-show="filtered" ng-click="clearFilters()">remove filters</span>
+            <button type="submit" ng-click="getFilteredFontlist()">search</button>
+            <span id="clear-filters" ng-show="pageArgs.filtered" ng-click="clearFilters()">clear filters</span>
 
             <label class="has-menu">Name
-                <select name='byname' size='2' ng-model="optionsform.name">
+                <select name='byname' size='2' ng-model="pageArgs.name">
                     <option value='asc' selected='true'>a-z</option>
                     <option value='desc'>z-a</option>
                     <!-- <option value='rand'>random</option> -->
@@ -16,7 +16,7 @@
             </label>
 
             <label class="has-menu">Category
-                <select name="bycategory" size="4" multiple="true" ng-model="optionsform.category">
+                <select name="bycategory" size="4" multiple="true" ng-model="pageArgs.category">
                     <option value="SANS_SERIF" selected="true">Sans serif</option>
                     <option value="SERIF" selected="true">Serif</option>
                     <option value="MONOSPACE">Monospace</option>
@@ -26,7 +26,7 @@
             </label>
 
             <label class="has-menu">Weight
-                <select name="byweight" size="4" multiple="true" ng-model="optionsform.weight">
+                <select name="byweight" size="4" multiple="true" ng-model="pageArgs.weight">
                     <option value="100">100</option>
                     <option value="200">200</option>
                     <option value="300">300</option>
@@ -40,14 +40,14 @@
             </label>
                 
             <label class="has-menu">Style
-                <select name='bystyle' size='2' multiple=true ng-model="optionsform.style">
+                <select name='bystyle' size='2' multiple=true ng-model="pageArgs.style">
                     <option value='normal' selected='true'>Normal</option>
                     <option value='italic'>Italic</option>
                 </select>
             </label>
 
             <label class="has-menu">Subsets
-                <select name='bysubset' size='4' multiple=true ng-model="optionsform.subset">
+                <select name='bysubset' size='4' multiple=true ng-model="pageArgs.subset">
                     <option value='latin' selected='true'>latin</option>
                     <option value='latin-ext' selected='true'>latin-ext</option>
                     <option value='menu' selected='true'>menu</option>
@@ -78,7 +78,7 @@
             </label>
 
             <label class="has-menu">Designer
-                <select name='bydesigner' size='2' ng-model="optionsform.designer">
+                <select name='bydesigner' size='2' ng-model="pageArgs.designer">
                     <option value='asc' selected='true'>a-z</option>
                     <option value='desc'>z-a</option>
                     <!-- <option value='rand'>random</option> -->
@@ -86,7 +86,7 @@
             </label>
 
             <label class="has-menu">License
-                <select name="license" size='4' ng-model="optionsform.license">
+                <select name="license" size='4' ng-model="pageArgs.license">
                     <option value='' selected='true'>any</option>
                     <option value='OFL'>ofl</option>
                     <option value='UFL'>ufl</option>
@@ -160,16 +160,20 @@
 
         <div id="next-prev-container">
             <div id="next-prev-fonts">
-                <span id='back-to-start' ng-show="currentPage>0" ng-click="backToStart()" >&lt;&lt;</span>
-                <span id='prev' ng-show="currentPage>0" ng-click="changePage('prev')">
+                <span id='back-to-start' ng-show="pageArgs.page > 0" ng-click="backToStart()" >&lt;&lt;</span>
+                <span id='prev' ng-show="pageArgs.page > 0" ng-click="changePage('prev')">
                     &lt; previous
                 </span>
-                <span>page {{ currentPage+1 }}</span>
+                <span>page {{ pageArgs.page+1 }}</span>
                 <span>[ {{ fontlist.fontdata[0].name }} to {{ fontlist.fontdata[fontlist.fontdata.length-1].name }} ]</span>
-                <span id='next' ng-show="fontlist.fontcount-(limit*currentPage)>=15" ng-click="changePage('next')">
+                <span id='next' ng-show="fontlist.fontcount - (pageArgs.limit * pageArgs.page) > 15" ng-click="changePage('next')">
                     next &gt;
                 </span>
-                <p class="tiny-info"> {{ (limit*currentPage)+1 }} to {{ (limit*currentPage)+fontlist.fontdata.length }} of {{ fontlist.fontcount }} fonts</p>
+                <p class="tiny-info">
+                    {{ (pageArgs.limit*pageArgs.page)+1 }}
+                    to {{ (pageArgs.limit*pageArgs.page)+fontlist.fontdata.length }}
+                    of {{ fontlist.fontcount }} fonts
+                </p>
             </div>
         </div>
     </div> <!-- fontlist-container -->
