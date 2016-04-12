@@ -208,6 +208,10 @@ nav {
             } // font-list li
         } // font-list
     } // fontlist-container
+
+    .no-fonts {
+        text-align: center;
+    }
 }
 
 #next-prev-container {
@@ -270,6 +274,10 @@ $specnav-header-height: 3rem;
         display: inline-block;
         vertical-align: top;
         padding-bottom: 4px;
+    }
+
+    .specimen-title {
+        font-weight: 800;
     }
 
     .specnav-link-container {

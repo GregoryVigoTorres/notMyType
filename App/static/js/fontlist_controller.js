@@ -10,7 +10,10 @@ fontList.controller('fontController',
     var updateScope = function(eve) {
         /* update $scope from values in fontlistService (saved state) */
         Object.keys(fontlistService).forEach(function(key, ind, arr) {
-            if (fontlistService[key] !== undefined && !fontlistService[key].call) {
+            if (fontlistService[key] && !fontlistService[key].call) {
+                $scope[key] = fontlistService[key];
+            } else if (!fontlistService[key]) {
+                // keep null and undefined values
                 $scope[key] = fontlistService[key];
             };
         });
@@ -19,7 +22,10 @@ fontList.controller('fontController',
     var updateState = function(eve) {
         /* update saved state from scope */
         Object.keys($scope).forEach(function(key, ind, arr) {
-            if (!key.startsWith('$') && !$scope[key].call) {
+            if ($scope[key] && !key.startsWith('$') && !$scope[key].call) {
+                fontlistService[key] = $scope[key];
+            } else if (!$scope[key]) {
+                // keep undefined values
                 fontlistService[key] = $scope[key];
             }
         });
@@ -43,8 +49,9 @@ fontList.controller('fontController',
         $scope.pageArgs = defaultPageArgs;
         updateState();
     };
-    // scope properties all setup
+    // scope properties setup
     
+
     $scope.changePage = function(action) {
         if (action==='next') { 
             $scope.pageArgs.page ++;

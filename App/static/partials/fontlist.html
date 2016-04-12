@@ -158,6 +158,10 @@
             </ul>
         </div>
 
+        <div ng-show="fontlist.fontcount == 0" class="no-fonts">
+            <p>This page intentionally left blank.</p>
+        </div>
+
         <div id="next-prev-container">
             <div id="next-prev-fonts">
                 <span id='back-to-start' ng-show="pageArgs.page > 0" ng-click="backToStart()" >&lt;&lt;</span>
