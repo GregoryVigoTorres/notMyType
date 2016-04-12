@@ -6,5 +6,5 @@ instance/config.py
 notes.txt
 assets.yml
 */main.css
-.cache
+*.cache
 colormap.html
