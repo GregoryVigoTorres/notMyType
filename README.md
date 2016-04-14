@@ -1,8 +1,14 @@
-TODO
+SETUP:
+    edit config files as needed
 
-Angular tests
-Install setup scripts to update/download assets and github repo
+    setup database
+    sql script and commands to populate
+    alembic init
 
+    download assets
+
+
+TODO:
 
 tag fonts somehow to keep track of which ones you've been looking at
 find similar fonts
