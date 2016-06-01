@@ -6,7 +6,7 @@ $gray1-transparent: rgba(106, 112, 133, 0.3);
 $gray2: #9B9999;
 $gray3: #666665;
 $gray5: #212121;
-$gray5-transparent: rgba(33, 33, 33, 0.9);
+$gray5-transparent: rgba(33, 33, 33, 0.7);
 $orange: #E28D1F;
 
 $nav-width: 14rem;
@@ -14,6 +14,10 @@ $nav-width: 14rem;
 body {
     font-family: "sans-serif";
     min-height: 100%;
+    margin: 0;
+    padding: 0;
+    text-rendering: auto;
+    font-size: 20px;
 }
 
 p {
@@ -63,6 +67,7 @@ nav {
     display: inline-block;
     position: absolute;
     top:0;
+    left: 0;
     z-index: 10;
     min-height: 100%;
     width: $nav-width;
@@ -71,7 +76,7 @@ nav {
     text-align: right;
     
     font-size: .75rem;
-    padding: 0 1rem 4rem 0;
+    padding: 0 1rem 4rem .5rem;
 
     header {
         text-align: left;
@@ -139,7 +144,8 @@ nav {
     z-index: 1;
     text-align: right;
     cursor: default;
-    font-weight: 800;
+    font-weight: 700;
+    font-size:16px;
 
     li {
         display: inline-block;
@@ -217,8 +223,9 @@ nav {
 #next-prev-container {
     position: fixed;
     width: 100%;
+    margin-left: $nav-width;
     bottom: 0;
-    text-align: center;
+    font-size: 14px;
 
     .tiny-info {
         font-size: .60rem;
@@ -227,11 +234,12 @@ nav {
 
 #next-prev-fonts {
     display: inline-block;
-    background-color: rgba(0,0,0,0.8);
+    background-color: $gray5-transparent;
     color: white;
     cursor: default;
     font-weight: 800;
     padding: 6px 0 6px 0;
+    text-align: center;
 
     span {
         padding: 6px 14px;

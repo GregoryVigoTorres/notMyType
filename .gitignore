@@ -2,9 +2,8 @@ venv
 vendor
 __pycache__
 .webassets-cache
-instance/config.py
+instance/dev_config.py
 notes.txt
-assets.yml
 */main.css
 *.cache
 colormap.html

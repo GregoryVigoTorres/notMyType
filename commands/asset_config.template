@@ -1,30 +1,11 @@
-# Automatically generated file
-# most likely needs modification
 
-security:
-    filters: 'scss,cssmin'
-    output: css/security.css
-    contents:
-        - Admin/assets/security/*.scss
-admin:
-    filters: 'scss,cssmin'
-    output: css/admin.css
-    contents:
-        - Admin/assets/*.scss
-
-public:
-    filters: 'scss,cssmin'
-    output: css/main.css
-    contents:
-        Public/assets/scss/*.scss
-
+# Automatically generated 
 {% for asset in bundles %}
 {{ asset.name}}:
     filters: {{ asset.filters }}
     output: {{ asset.output }}
     contents:
-    {% for i in asset.contents %}
-        - {{ i }}
+    {% for i in asset.contents %}- {{ i }}
     {% endfor %}
-
 {% endfor %}
+# End automatically generated 

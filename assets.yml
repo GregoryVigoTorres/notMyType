@@ -1,0 +1,24 @@
+public:
+    filters: 'scss,cssmin'
+    output: css/main.css
+    contents:
+        - css/normalize.css
+        - Public/assets/scss/*.scss
+
+font_app:
+    output: angular_app.js
+    contents:
+        - js/app.js
+        - js/services.js
+        - js/fontlist_controller.js
+        - js/specimen_controller.js
+
+angular-js-min:
+    filters: 
+    output: angular.min.js
+    contents:
+        - vendor/angular/angular.min.js
+        - vendor/angular/angular-route.min.js
+        - vendor/angular/angular-resource.min.js
+        - vendor/angular/angular-sanitize.min.js
+
