@@ -1,6 +1,7 @@
 venv
 vendor
 __pycache__
+*.pyc
 .webassets-cache
 instance/dev_config.py
 notes.txt

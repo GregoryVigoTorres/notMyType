@@ -23,8 +23,6 @@ SETUP:
 
 
 TODO:
-    REDO git repo without unused files and
-    w/o all the setup stuff
 
     Server setup/config
     > uwsgi or gunicorn + nginx
