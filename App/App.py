@@ -1,5 +1,9 @@
 import logging
 
+from colorama import init as init_colorama
+from colorama import Fore, Back, Style
+init_colorama(autoreset=True)
+
 from flask import Flask
 
 from flask_wtf.csrf import CsrfProtect
@@ -10,7 +14,7 @@ from .Public import *
 
 
 csrf = CsrfProtect()
-logging.basicConfig(format='Flask App...%(message)s', level=logging.INFO)
+logging.basicConfig(format='[notMyType][%(levelname)s] %(lineno)d in %(funcName)s - {}%(message)s'.format(Fore.CYAN), level=logging.DEBUG)
 
 def create_app(config=None):
     """ config should be a python file """
