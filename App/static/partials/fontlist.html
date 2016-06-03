@@ -170,14 +170,16 @@
                     &lt; previous
                 </span>
                 <span>page {{ pageArgs.page+1 }}</span>
-                <span>[ {{ fontlist.fontdata[0].name }} to {{ fontlist.fontdata[fontlist.fontdata.length-1].name }} ]</span>
-                <span id='next' ng-show="fontlist.fontcount - (pageArgs.limit * pageArgs.page) > 15" ng-click="changePage('next')">
+                <span>&#8220;{{ fontlist.fontdata[0].name }}&#8221; to &#8220;{{ fontlist.fontdata[fontlist.fontdata.length-1].name }}&#8221;</span>
+                <span id='next' 
+                    ng-show="fontlist.fontcount - ((pageArgs.limit*pageArgs.page)+fontlist.fontdata.length) > 0" 
+                    ng-click="changePage('next')">
                     next &gt;
                 </span>
                 <p class="tiny-info">
                     {{ (pageArgs.limit*pageArgs.page)+1 }}
                     to {{ (pageArgs.limit*pageArgs.page)+fontlist.fontdata.length }}
-                    of {{ fontlist.fontcount }} fonts
+                    of {{ fontlist.fontcount }}
                 </p>
             </div>
         </div>

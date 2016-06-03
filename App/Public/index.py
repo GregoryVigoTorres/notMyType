@@ -18,8 +18,6 @@ def get_filtered_fonts():
     """ fontOptions form 
         accepts json for query params
     """
-
-    # print(request.args)
     page = int(request.args.get('page'))
     limit = int(request.args.get('limit'))
     name_sort = request.args.get('name')
@@ -46,7 +44,7 @@ def get_filtered_fonts():
             filter(or_(*or_styles)).\
             options(contains_eager(FontMeta.fonts))
 
-    font_count = fq.count()
+    # font_count = fq.count()
     # before limit/offset
 
     if name_sort == 'desc':
@@ -57,6 +55,7 @@ def get_filtered_fonts():
         fq_ord = fq.order_by(FontMeta.name)
 
     font_objs = fq_ord.offset(offset).limit(limit).all()
+    font_count = fq.distinct(FontMeta.name).count()
     fonts_css = get_font_css(font_objs)
     font_data = [i.as_dict for i in font_objs]
     for i in font_data:
