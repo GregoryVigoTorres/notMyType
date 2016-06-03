@@ -9,10 +9,10 @@ fontApp.factory('fontFamilies', ['$resource', function($resource) {
 fontApp.factory('filteredFonts', ['$resource', function($resource) {
     var defaultParams = {
         'name':'asc',
-        'category':['Sans_serif', 'Serif'],
-        'weight':'400',
-        'style':['normal', 'italic'],
-        'subset':['latin', 'latin-ext', 'menu'],
+        'category':null,
+        'weight':null,
+        'style':null,
+        'subset':null,
         'designer':'asc',
         'license': null,
         'limit': 15,

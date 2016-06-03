@@ -16,48 +16,62 @@ from .lib import get_font_css
 @public_bp.route('/getfilteredfonts')
 def get_filtered_fonts():
     """ fontOptions form 
-        accepts json for query params
     """
+    fq = db.session.query(FontMeta)
+
     page = int(request.args.get('page'))
     limit = int(request.args.get('limit'))
-    name_sort = request.args.get('name')
+    name_sort = request.args.get('name') or 'asc'
+    designer_sort = request.args.get('designer') or 'asc'
+
     subsets = request.args.getlist('subset')
-    designer_sort = request.args.get('designer')
-    weights = request.args.getlist('weight')
+    if subsets:
+        sub_subsets = [FontMeta.subsets.contains(i) for i in subsets]
+        fq = fq.filter(or_(*sub_subsets))
+
     categories = request.args.getlist('category')
+    if categories:
+        sub_categories = [FontMeta.category_ref == i for i in categories]
+        fq = fq.filter(or_(*sub_categories))
+
+    license = request.args.get('license')
+    if license:
+        fq = fq.filter(FontMeta.license==license)
+
+    fq = fq.join(FontMeta.fonts)
+
+    weights = request.args.getlist('weight')
+    if weights:
+        or_weights = [Font.weight == i for i in weights]
+        fq = fq.filter(or_(*or_weights))
+
     styles = request.args.getlist('style')
-    license = request.args.get('license') or ''
+    if styles:
+        or_styles = [Font.style == i for i in styles]
+        fq = fq.filter(or_(*or_styles))
+
+    fq = fq.options(contains_eager(FontMeta.fonts))
 
     offset = page*limit
 
-    or_weights = [Font.weight == i for i in weights]
-    or_styles = [Font.style == i for i in styles]
-    sub_subsets = [FontMeta.subsets.contains(i) for i in subsets]
-    sub_categories = [FontMeta.category_ref == i for i in categories]
-
-    fq = db.session.query(FontMeta).\
-            filter(or_(*sub_subsets)).\
-            filter(or_(*sub_categories)).\
-            filter(FontMeta.license.like('%'+license)).\
-            join(FontMeta.fonts).\
-            filter(or_(*or_weights)).\
-            filter(or_(*or_styles)).\
-            options(contains_eager(FontMeta.fonts))
-
-    # font_count = fq.count()
-    # before limit/offset
-
     if name_sort == 'desc':
-        fq_ord = fq.order_by(desc(FontMeta.name)).order_by(desc(FontMeta.name))
+        fq = fq.order_by(desc(FontMeta.name)).order_by(desc(FontMeta.name))
     elif designer_sort == 'desc':
-        fq_ord = fq.order_by(desc(FontMeta.name)).order_by(desc(FontMeta.designer))
+        fq = fq.order_by(desc(FontMeta.name)).order_by(desc(FontMeta.designer))
     else:
-        fq_ord = fq.order_by(FontMeta.name)
+        fq = fq.order_by(FontMeta.name)
 
-    font_objs = fq_ord.offset(offset).limit(limit).all()
+    # limit/offset is not working as expected here
+    fonts = fq.all()
+    try:
+        font_objs = fonts[offset:offset+limit]
+    except IndexError as E:
+        font_objs = fonts[offset:]
+
     font_count = fq.distinct(FontMeta.name).count()
     fonts_css = get_font_css(font_objs)
     font_data = [i.as_dict for i in font_objs]
+
     for i in font_data:
         try:
             i['reg_font_face'] = i['fonts'][0]['post_script_name']

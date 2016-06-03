@@ -131,7 +131,9 @@
 
     <div id="fontlist-container">
         <div ng-repeat="i in fontlist.fontdata track by $index" class='font-container'>
-            <span class="font-name" style="font-family: {{ i.reg_font_face }};">{{ i.name }}</span>
+            <span class="font-name" style="font-family: {{ i.reg_font_face }};">
+                <!--{{ $index+1+(pageArgs.page*fontlist.fontdata.length) }}-->
+                {{ i.name }}</span>
             <table class="font-info">
                 <thead>
                     <tr>
