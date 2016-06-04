@@ -1,0 +1,22 @@
+Installation and setup
+
+This is a Flask+Angular 1.5 app.
+
+Edit config files as needed, like passwords and database info.
+
+Install Python dependencies with 
+pip install -r requirements.txt
+
+Setup database with 
+    manage.py initdb 
+    and then 
+    manage.py updatedb
+
+alembic init, if you plan on changing things
+
+Get assets with
+    manage.py get_deps
+    This command downloads assets in deps.conf
+    and optionally writes an assets.yml file
+
+
