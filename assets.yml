@@ -6,7 +6,8 @@ public:
         - Public/assets/scss/*.scss
 
 font_app:
-    output: angular_app.js
+    filters: 'jsmin'
+    output: js/angular_app_%(version)s.min.js
     contents:
         - js/app.js
         - js/services.js
@@ -15,7 +16,7 @@ font_app:
 
 angular-js-min:
     filters: 
-    output: angular.min.js
+    output: vendor/angular_all.min.js
     contents:
         - vendor/angular/angular.min.js
         - vendor/angular/angular-route.min.js
