@@ -70,6 +70,7 @@ fontList.controller('fontController',
     };
 
     $scope.getFontsByLetter = function(eve) {
+        $scope.pageArgs = defaultPageArgs;
         $scope.pageArgs.page = 0;
         $scope.pageArgs.letter = eve.target.id;
         $scope.fontlist = fontFamilies.get($scope.pageArgs);
