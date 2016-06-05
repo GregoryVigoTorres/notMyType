@@ -34,8 +34,19 @@ fontList.controller('fontController',
         });
     };
 
-    var resetPageArgs = function() {
+    var resetPageArgs = function(reqArgs) {
+        // this sets values defined in defaultPageArgs
         if (!$scope.pageArgs) { $scope.pageArgs = {} };
+
+        Object.keys($scope.pageArgs).forEach(function(key) {
+            if (reqArgs) {
+                // keep properties in reqArgs
+                if (reqArgs.indexOf(key) < 0) {
+                    delete $scope.pageArgs[key];
+                };
+            };
+        });
+
         Object.keys(defaultPageArgs).forEach((k) => $scope.pageArgs[k] = defaultPageArgs[k]);
     };
 
@@ -43,12 +54,12 @@ fontList.controller('fontController',
     if (fontlistService.fontlist) {
         if (fontlistService.fontlist.$resolved) {
             updateScope();
+            this.currentFontListSource = fontFamilies;
         };
     };
 
     if (!$scope.fontlist) {
         resetPageArgs();
-        $scope.pageArgs.currentFontlistUrl = fontFamilies;
         $scope.fontlist = fontFamilies.get($scope.pageArgs); 
         updateState();
     };
@@ -61,15 +72,21 @@ fontList.controller('fontController',
             $scope.pageArgs.page --;
         };
 
-        $scope.fontlist = $scope.pageArgs.currentFontlistUrl.get($scope.pageArgs);
+        if (!this.currentFontListSource) {
+            // this is needed because sometimes this is empty
+            this.currentFontListSource = fontFamilies;
+        };
+
+        $scope.fontlist = this.currentFontListSource.get($scope.pageArgs);
         updateState();
         $anchorScroll(0);
     };
 
     $scope.getFontsByLetter = function(eve) {
-        resetPageArgs();
+        resetPageArgs(['letter']);
         $scope.pageArgs.letter = eve.target.id;
-        $scope.pageArgs.currentFontlistUrl = fontFamilies;
+        this.currentFontListSource = fontFamilies;
+
         $scope.fontlist = fontFamilies.get($scope.pageArgs);
         updateState();
         $anchorScroll(0);
@@ -77,29 +94,32 @@ fontList.controller('fontController',
 
     $scope.backToStart = function() {
         $scope.pageArgs.page = 0;
-        $scope.fontlist = $scope.pageArgs.currentFontlistUrl.get($scope.pageArgs);
+        $scope.fontlist = this.currentFontListSource.get($scope.pageArgs);
         updateState();
         $anchorScroll(0);
     };
 
     $scope.clearFilters = function() {
         resetPageArgs();
+        this.currentFontListSource = fontFamilies;
+        $scope.pageArgs.filtered = false;
         $scope.fontlist = fontFamilies.get($scope.pageArgs);
         updateState();
         $anchorScroll(0);
     };
 
     $scope.getFilteredFontlist = function(eve) {
-        resetPageArgs();
-        $scope.pageArgs.currentFontlistUrl = filteredFonts;
+        resetPageArgs(['name', 'designer', 'subset', 'category', 'license', 'weight', 'style', 'filtered']);
+        $scope.pageArgs.filtered = true;
+        this.currentFontListSource = filteredFonts;
         $scope.fontlist = filteredFonts.get($scope.pageArgs);
         updateState();
         $anchorScroll(0);
     };
 
     $scope.searchFontsByName = function() {
-        resetPageArgs();
-        $scope.pageArgs.currentFontlistUrl = fontNameSearch;
+        resetPageArgs(['nameSearchTerm']);
+        this.currentFontListSource = fontNameSearch;
         $scope.fontlist = fontNameSearch.get($scope.pageArgs);
         updateState();
         $anchorScroll(0);
