@@ -13,3 +13,13 @@ fontApp.config(['$routeProvider', function($routeProvider) {
                 controller: 'specimenCtrl'
     });
 }]);
+
+// this is used in services and controller, 
+// it should be defined ONCE here.
+// Be VERY careful about changing its values.
+fontApp.value(
+        'defaultPageArgs', {
+        page: 0,
+        limit: 15,
+        letter: null,
+        });

@@ -1,32 +1,32 @@
 'use-strict'
 /* Services and Resources */
-fontApp.factory('fontFamilies', ['$resource', function($resource) {
-    return $resource('getfonts', {'filtered':false, 'page':0, 'letter':null, 'limit':15}, {
-        get: {method:'GET', params:{filtered:false, page:0, letter:null, 'limit':15}}                                                                              
+
+fontApp.factory('fontFamilies', ['$resource', 'defaultPageArgs', function($resource, defaultPageArgs) {
+    return $resource('getfonts', defaultPageArgs, {
+            get: {method:'GET', defaultPageArgs}
     });
 }]);
 
-fontApp.factory('fontNameSearch', ['$resource', function($resource) {
-    var defaultParams = {'page':0, 'limit':15};
-    return $resource('searchFontsByName', defaultParams, {
-        get: {method:'GET', defaultParams}
+fontApp.factory('fontNameSearch', ['$resource', 'defaultPageArgs', function($resource, defaultPageArgs) {
+    return $resource('searchFontsByName', defaultPageArgs, {
+        get: {method:'GET', defaultPageArgs}
     });
 }]);
 
-fontApp.factory('filteredFonts', ['$resource', function($resource) {
-    var defaultParams = {
+fontApp.factory('filteredFonts', ['$resource', 'defaultPageArgs', function($resource, defaultPageArgs) {
+    var filterParams = {
         'name':'asc',
         'category':null,
         'weight':null,
         'style':null,
         'subset':null,
         'designer':'asc',
-        'license': null,
-        'limit': 15,
-        'page':0
+        'license': null
     };
-    return $resource('getfilteredfonts', defaultParams, {
-        get: {method:'GET', params: defaultParams}                                                                              
+    Object.keys(defaultPageArgs).forEach((key) => filterParams[key] = defaultPageArgs[key]);
+
+    return $resource('getfilteredfonts', filterParams, {
+        get: {method:'GET', params: filterParams}                                                                              
     });
 }]);
 
