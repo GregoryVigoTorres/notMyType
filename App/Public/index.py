@@ -121,7 +121,7 @@ def get_fonts():
         with offset from query params
     """
     page = int(request.args.get('page', 0))
-    Limit = 15
+    Limit = int(request.args.get('limit', 15))
     off_set = page * Limit
     letter = request.args.get('letter')
     if letter:
