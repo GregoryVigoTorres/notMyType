@@ -6,6 +6,13 @@ fontApp.factory('fontFamilies', ['$resource', function($resource) {
     });
 }]);
 
+fontApp.factory('fontNameSearch', ['$resource', function($resource) {
+    var defaultParams = {'page':0, 'limit':15};
+    return $resource('searchFontsByName', defaultParams, {
+        get: {method:'GET', defaultParams}
+    });
+}]);
+
 fontApp.factory('filteredFonts', ['$resource', function($resource) {
     var defaultParams = {
         'name':'asc',

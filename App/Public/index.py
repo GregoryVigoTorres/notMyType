@@ -12,6 +12,49 @@ from App.models.public import (FontMeta, Font)
 
 from .lib import get_font_css
 
+@public_bp.route('/searchFontsByName')
+def name_search():
+    """ There's a lot of repeated code here and get_filtered_fonts """
+    if not request.args.get('nameSearchTerm'):
+        return jsonify({'fontlist':['A search term is required']})
+
+    # search in fontmeta name and font names
+    like_str = '%'+request.args['nameSearchTerm']+'%'
+    fq = db.session.query(FontMeta).\
+            filter(FontMeta.name.like(like_str)).\
+            join(FontMeta.fonts).\
+            filter(or_(Font.name.like(like_str), Font.post_script_name.like(like_str))).\
+            order_by(FontMeta.name)
+
+    # begin repeated code 
+    page = int(request.args.get('page', 0))
+    limit = int(request.args.get('limit', 15))
+    offset = page*limit
+
+    # offset/limit doesn't work as expected here
+    fonts = fq.all()
+    try:
+        font_objs = fonts[offset:offset+limit]
+    except IndexError as E:
+        font_objs = fonts[offset:]
+
+    font_count = fq.distinct(FontMeta.name).count()
+    fonts_css = get_font_css(font_objs)
+    font_data = [i.as_dict for i in font_objs]
+
+    for i in font_data:
+        try:
+            i['reg_font_face'] = i['fonts'][0]['post_script_name']
+        except Exception as E:
+            i['reg_font_face'] = 'Sans-serif'
+            logging.debug('get filtered fonts get font face error {}'.format(E))
+
+    fonts_data = {'fontdata':font_data,
+                  'fontscss':fonts_css,
+                  'fontcount':font_count}
+
+    return jsonify(fonts_data)
+
 
 @public_bp.route('/getfilteredfonts')
 def get_filtered_fonts():
@@ -52,7 +95,6 @@ def get_filtered_fonts():
 
     fq = fq.options(contains_eager(FontMeta.fonts))
 
-    offset = page*limit
 
     if name_sort == 'desc':
         fq = fq.order_by(desc(FontMeta.name)).order_by(desc(FontMeta.name))
@@ -61,6 +103,7 @@ def get_filtered_fonts():
     else:
         fq = fq.order_by(FontMeta.name)
 
+    offset = page*limit
     # limit/offset is not working as expected here
     fonts = fq.all()
     try:

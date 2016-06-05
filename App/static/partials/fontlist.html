@@ -1,11 +1,20 @@
 <div id="main-container" ng-controller="fontController">
     <style>{{ fontlist.fontscss }}</style>
     <nav>
+        <h3>Not My Type</h3>
+        
+        <form id="name-search">
+            <input 
+              type="text" 
+              name="name-search" 
+              placeholder="search by name" 
+              ng-model="pageArgs.nameSearchTerm">
+            <button type="submit" ng-click="searchFontsByName()">go</button>
+        </form>
+
         <form id="font-options">
-            <h3>Not My Type</h3>
             <header>filters</header>
-            
-            <button type="submit" ng-click="getFilteredFontlist()">search</button>
+            <button type="submit" ng-click="getFilteredFontlist()">filter</button>
             <span id="clear-filters" ng-show="pageArgs.filtered" ng-click="clearFilters()">clear filters</span>
 
             <label class="has-menu">Name

@@ -3,8 +3,8 @@
 var fontList = angular.module('fontList', ['ngRoute']);
 
 fontList.controller('fontController', 
-    ['$scope', '$filter', '$anchorScroll', 'fontFamilies', 'filteredFonts', 'fontlistService', 
-    function($scope, $filter, $anchorScroll, fontFamilies, filteredFonts, fontlistService) {
+    ['$scope', '$filter', '$anchorScroll', 'fontFamilies', 'filteredFonts', 'fontlistService', 'fontNameSearch', 
+    function($scope, $filter, $anchorScroll, fontFamilies, filteredFonts, fontlistService, fontNameSearch) {
     /* $scope state is maintained with the fontlistService */
 
     var updateScope = function(eve) {
@@ -40,6 +40,7 @@ fontList.controller('fontController',
 
     defaultPageArgs = {
         filtered: false,
+        nameFiltered: false,
         page: 0,
         limit: 15,
         };
@@ -59,8 +60,11 @@ fontList.controller('fontController',
             $scope.pageArgs.page --;
         };
 
+        // there needs to be a way better routing system here
         if ($scope.pageArgs.filtered) {
             $scope.fontlist = filteredFonts.get($scope.pageArgs);
+        } else if ($scope.pageArgs.nameFiltered) {
+            $scope.fontlist = fontNameSearch.get($scope.pageArgs);
         } else {
             $scope.fontlist = fontFamilies.get($scope.pageArgs);
         };
@@ -70,7 +74,8 @@ fontList.controller('fontController',
     };
 
     $scope.getFontsByLetter = function(eve) {
-        $scope.pageArgs = defaultPageArgs;
+        // set defaultPageArgs to default values
+        Object.keys(defaultPageArgs).forEach((k) => $scope.pageArgs[k] = defaultPageArgs[k]);
         $scope.pageArgs.letter = eve.target.id;
         $scope.fontlist = fontFamilies.get($scope.pageArgs);
         updateState();
@@ -91,7 +96,8 @@ fontList.controller('fontController',
     };
 
     $scope.clearFilters = function() {
-        $scope.pageArgs = defaultPageArgs;
+        // set defaultPageArgs to default values
+        Object.keys(defaultPageArgs).forEach((k) => $scope.pageArgs[k] = defaultPageArgs[k]);
         $scope.fontlist = fontFamilies.get($scope.pageArgs);
         updateState();
         $anchorScroll(0);
@@ -102,6 +108,15 @@ fontList.controller('fontController',
         Object.keys(defaultPageArgs).forEach((k) => $scope.pageArgs[k] = defaultPageArgs[k]);
         $scope.pageArgs.filtered = true;
         $scope.fontlist = filteredFonts.get($scope.pageArgs);
+        updateState();
+        $anchorScroll(0);
+    };
+
+    $scope.searchFontsByName = function() {
+        // set defaultPageArgs to default values
+        Object.keys(defaultPageArgs).forEach((k) => $scope.pageArgs[k] = defaultPageArgs[k]);
+        $scope.pageArgs['nameFiltered'] = true;
+        $scope.fontlist = fontNameSearch.get($scope.pageArgs);
         updateState();
         $anchorScroll(0);
     };
