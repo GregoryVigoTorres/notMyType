@@ -21,9 +21,9 @@ def name_search():
     # search in fontmeta name and font names
     like_str = '%'+request.args['nameSearchTerm']+'%'
     fq = db.session.query(FontMeta).\
-            filter(FontMeta.name.like(like_str)).\
             join(FontMeta.fonts).\
             filter(or_(Font.name.like(like_str), Font.post_script_name.like(like_str))).\
+            options(contains_eager(FontMeta.fonts)).\
             order_by(FontMeta.name)
 
     # begin repeated code 
