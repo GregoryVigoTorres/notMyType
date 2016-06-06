@@ -688,10 +688,6 @@ nav button:hover {
 #next-prev-fonts #next:hover, #next-prev-fonts #prev:hover, #next-prev-fonts #back-to-start:hover {
   background-color: black;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003269}}
-#next-prev-fonts #back-to-start {
-  color: #666665;
-}
 
 /* SPECIMEN */
 @media -sass-debug-info{filename{}line{font-family:\00003288}}
