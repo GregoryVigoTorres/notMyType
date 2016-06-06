@@ -1,6 +1,6 @@
 Installation and setup
 
-This is a Flask+Angular 1.5 app.
+This is a Flask+Angular 1.5.2 app.
 
 Edit config files as needed, like passwords and database info.
 
@@ -12,11 +12,18 @@ Setup database with
     and then 
     manage.py updatedb
 
-alembic init, if you plan on changing things
+Run alembic init, if you plan on changing the database.
 
 Get assets with
     manage.py get_deps
-    This command downloads assets in deps.conf
-    and optionally writes an assets.yml file
+    This command downloads assets specified in deps.conf.
+Add downloaded assets to the assets.yml file (unless you've already done it) 
+    with create option.
+Build deps with
+    manage.py assets build
 
+Make sure your socket is set up correctly.
+    configure nginx
+    make sure nginx is running
+    run uwsgi uwsgi.ini
 

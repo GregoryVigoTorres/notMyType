@@ -8,6 +8,7 @@ angular_app*.js
 *.min.js
 *.css
 instance/dev_config.py
+alembic.ini
 notes.txt
 *.cache
 colormap.html
