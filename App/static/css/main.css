@@ -690,7 +690,7 @@ nav button:hover {
 }
 
 /* SPECIMEN */
-@media -sass-debug-info{filename{}line{font-family:\00003288}}
+@media -sass-debug-info{filename{}line{font-family:\00003284}}
 .specimen-nav-header {
   cursor: pointer;
   left: 0;
@@ -718,45 +718,45 @@ nav button:hover {
 .specimen-nav-header .small {
   font-size: .75rem;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003282}}
+@media -sass-debug-info{filename{}line{font-family:\00003278}}
 .specimen-nav-header .specnav-link {
   margin-bottom: 6px;
   font-weight: 700;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003296}}
+@media -sass-debug-info{filename{}line{font-family:\00003292}}
 .specimen-nav-header p {
   display: inline-block;
   vertical-align: top;
   padding-bottom: 4px;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003302}}
+@media -sass-debug-info{filename{}line{font-family:\00003298}}
 .specimen-nav-header .specimen-title {
   font-weight: 800;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003306}}
+@media -sass-debug-info{filename{}line{font-family:\00003302}}
 .specimen-nav-header .specnav-link-container {
   width: 20%;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003310}}
+@media -sass-debug-info{filename{}line{font-family:\00003306}}
 .specimen-nav-header .specnav-font-name {
   width: 75%;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003314}}
+@media -sass-debug-info{filename{}line{font-family:\00003310}}
 .specimen-nav-header #close-specimen {
   font-size: 1rem;
   padding-right: 10px;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003319}}
+@media -sass-debug-info{filename{}line{font-family:\00003315}}
 .specimen-nav-header #show-nav {
   font-weight: 800;
   padding-right: 10px;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003323}}
+@media -sass-debug-info{filename{}line{font-family:\00003319}}
 .specimen-nav-header #show-nav:hover {
   color: #E28D1F;
 }
 
-@media -sass-debug-info{filename{}line{font-family:\00003329}}
+@media -sass-debug-info{filename{}line{font-family:\00003325}}
 .specimen-nav {
   cursor: pointer;
   left: 0;
@@ -784,36 +784,36 @@ nav button:hover {
 .specimen-nav .small {
   font-size: .75rem;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003282}}
+@media -sass-debug-info{filename{}line{font-family:\00003278}}
 .specimen-nav .specnav-link {
   margin-bottom: 6px;
   font-weight: 700;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003337}}
+@media -sass-debug-info{filename{}line{font-family:\00003333}}
 .specimen-nav p, .specimen-nav div {
   margin: 0 0 1rem 0;
   max-width: 100%;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003342}}
+@media -sass-debug-info{filename{}line{font-family:\00003338}}
 .specimen-nav span {
   padding: 4px 6px 8px 6px;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003347}}
+@media -sass-debug-info{filename{}line{font-family:\00003343}}
 .specimen-nav span.has-action:hover {
   color: #E28D1F;
 }
 
-@media -sass-debug-info{filename{}line{font-family:\00003353}}
+@media -sass-debug-info{filename{}line{font-family:\00003349}}
 .specimen {
   background-color: #D2D2D2;
   margin-top: 2.5rem;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003357}}
+@media -sass-debug-info{filename{}line{font-family:\00003353}}
 .specimen .block-name, .specimen .cat-name {
   font-weight: 800;
   padding: 4px;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003362}}
+@media -sass-debug-info{filename{}line{font-family:\00003358}}
 .specimen .block-name {
   margin-top: 1rem;
   font-size: 1.4rem;
@@ -821,7 +821,7 @@ nav button:hover {
   color: #000;
   background-color: #fff;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003370}}
+@media -sass-debug-info{filename{}line{font-family:\00003366}}
 .specimen .char-container {
   display: flex;
   flex-flow: row wrap;
@@ -829,7 +829,7 @@ nav button:hover {
   justify-content: flex-start;
   padding: 1.5rem;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003377}}
+@media -sass-debug-info{filename{}line{font-family:\00003373}}
 .specimen .char-container .cat-name {
   color: #666665;
   flex: 0 0 10%;
@@ -838,7 +838,7 @@ nav button:hover {
   font-size: 75%;
   letter-spacing: 2px;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003386}}
+@media -sass-debug-info{filename{}line{font-family:\00003382}}
 .specimen .char-container div {
   flex: 0 0 10%;
   background-color: #fff;
@@ -846,12 +846,12 @@ nav button:hover {
   text-align: center;
   padding: 1rem 0 0 0;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003393}}
+@media -sass-debug-info{filename{}line{font-family:\00003389}}
 .specimen .char-container div .cp {
   font-size: 1rem;
   padding-bottom: .3rem;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003398}}
+@media -sass-debug-info{filename{}line{font-family:\00003394}}
 .specimen .char-container div .ent-name {
   color: #9B9999;
   border-top: 1px solid #9B9999;
@@ -861,7 +861,7 @@ nav button:hover {
   word-break: break-all;
 }
 
-@media -sass-debug-info{filename{}line{font-family:\00003411}}
+@media -sass-debug-info{filename{}line{font-family:\00003407}}
 #back-to-top {
   position: fixed;
   bottom: 0px;
@@ -872,28 +872,28 @@ nav button:hover {
   font-weight: 800;
   cursor: default;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003421}}
+@media -sass-debug-info{filename{}line{font-family:\00003417}}
 #back-to-top:hover {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
 /* LOREM IPSUM */
-@media -sass-debug-info{filename{}line{font-family:\00003427}}
+@media -sass-debug-info{filename{}line{font-family:\00003423}}
 #lipsum-container {
   padding: 5.5rem 10rem 0 10rem;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003430}}
+@media -sass-debug-info{filename{}line{font-family:\00003426}}
 #lipsum-container .lipsum-text-container {
   margin-bottom: 2rem;
   padding: 1.5rem;
   border: 1px solid #9B9999;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003436}}
+@media -sass-debug-info{filename{}line{font-family:\00003432}}
 #lipsum-container .lipsum-text {
   margin-bottom: 1rem;
   text-indent: 3rem;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003441}}
+@media -sass-debug-info{filename{}line{font-family:\00003437}}
 #lipsum-container .lipsum-options {
   text-align: right;
   position: fixed;
@@ -902,39 +902,39 @@ nav button:hover {
   padding-bottom: 7px;
   background-color: rgba(255, 255, 255, 0.5);
 }
-@media -sass-debug-info{filename{}line{font-family:\00003449}}
+@media -sass-debug-info{filename{}line{font-family:\00003445}}
 #lipsum-container .lipsum-options span {
   padding: 9px 13px 7px 13px;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003453}}
+@media -sass-debug-info{filename{}line{font-family:\00003449}}
 #lipsum-container .lipsum-options .lipsum-option {
   cursor: default;
   font-weight: 800;
   color: #666665;
   border: 1px solid #666665;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003459}}
+@media -sass-debug-info{filename{}line{font-family:\00003455}}
 #lipsum-container .lipsum-options .lipsum-option:hover {
   background-color: rgba(106, 112, 133, 0.3);
   border: 1px solid #9B9999;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003466}}
+@media -sass-debug-info{filename{}line{font-family:\00003462}}
 #lipsum-container .small-label {
   font-family: sans-serif !Important;
   font-weight: 800;
   font-size: .85rem;
   color: #9B9999;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003473}}
+@media -sass-debug-info{filename{}line{font-family:\00003469}}
 #lipsum-container .show-hide-lipsum {
   cursor: default;
 }
-@media -sass-debug-info{filename{}line{font-family:\00003475}}
+@media -sass-debug-info{filename{}line{font-family:\00003471}}
 #lipsum-container .show-hide-lipsum:hover {
   color: #666665;
 }
 
-@media -sass-debug-info{filename{}line{font-family:\00003481}}
+@media -sass-debug-info{filename{}line{font-family:\00003477}}
 .dark-on-light {
   background-color: #212121;
   color: #D2D2D2;
