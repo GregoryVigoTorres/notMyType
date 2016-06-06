@@ -139,9 +139,9 @@
 
     <div id="fontlist-container">
         <div ng-repeat="i in fontlist.fontdata track by $index" class='font-container'>
-            <span class="font-name" style="font-family: {{ i.reg_font_face }};">
-                <!--{{ $index+1+(pageArgs.page*fontlist.fontdata.length) }}-->
-                {{ i.name }}</span>
+            <span class="font-name" 
+                style= "font-family: '{{ ::i.reg_font_face }}', sans-serif;">{{ ::i.name }}</span>
+            <!-- <br><span>index: {{ $index+1+(pageArgs.page*fontlist.fontdata.length) }}</span> -->
             <table class="font-info">
                 <thead>
                     <tr>
@@ -153,18 +153,19 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ i.category }}</td>
-                        <td>{{ i.designer }}</td>
-                        <td>{{ i.license }}</td>
-                        <td><span ng-repeat="s in i.subsets">{{ s }},&nbsp;</span></td>
+                        <td>{{ ::i.category }}</td>
+                        <td>{{ ::i.designer }}</td>
+                        <td>{{ ::i.license }}</td>
+                        <td><span ng-repeat="s in i.subsets">{{ ::s }},&nbsp;</span></td>
                     </tr>
                 </tbody>
             </table>
 
             <ul class='font-list'>
                 <li ng-repeat="font in i.fonts track by $index" 
-                    style="font-family: {{ font.post_script_name }}, sans-serif; font-weight: {{ font.weight }};">
-                    <a class="font-link" href="#/specimen/{{ font.id }}">{{ font.post_script_name }}</a>
+                    style="font-family: '{{ ::font.post_script_name }}', sans-serif; 
+                            font-weight: {{ ::font.weight }};">
+                    <a class="font-link" href="#/specimen/{{ ::font.id }}">{{ ::font.post_script_name }}</a>
                 </li>
             </ul>
         </div>

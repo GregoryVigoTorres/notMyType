@@ -74,7 +74,7 @@
         <div class="char-container" ng-repeat="cat in block.cats">
             <p class="cat-name">{{ cat.name }}</p>
             <div ng-repeat="char in cat.chars">
-                <p class="cp" style="font-family: {{ chardata.fontdata.post_script_name }};" ng-bind-html="char.cp"></p> 
+                <p class="cp" style="font-family: '{{ chardata.fontdata.post_script_name }}';" ng-bind-html="char.cp"></p> 
                 <p class="ent-name">{{ char.name }}<br>{{ char.cp }} </p>
             </div>
         </div>
