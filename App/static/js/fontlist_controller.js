@@ -93,6 +93,7 @@ fontList.controller('fontController',
     };
 
     $scope.backToStart = function() {
+        if (!this.currentFontListSource) { this.currentFontListSource = fontFamilies };
         $scope.pageArgs.page = 0;
         $scope.fontlist = this.currentFontListSource.get($scope.pageArgs);
         updateState();

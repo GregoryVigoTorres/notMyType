@@ -1,5 +1,4 @@
 /* Jasmin tests to be used with karma
- * getFilteredFonts test works, but not with scope args as params 
  */
 
 describe("fontlist tests", function() {
@@ -22,7 +21,8 @@ describe("fontlist tests", function() {
             $scope = {};
             controller = $controller('fontController', {$scope: $scope});
 
-            url = "getfonts?filtered=false&limit=15&page=0";
+            // url = "getfonts?filtered=false&limit=15&page=0";
+            url = "getfonts?limit=15&page=0";
             $httpBackend.whenGET(url).respond(200, 
                     {
                         'fontcount':80, 
@@ -51,19 +51,9 @@ describe("fontlist tests", function() {
             });
        }));
 
-        it("fontList backToStart", inject(function() {
-            $scope.backToStart();
-            expect($scope.fontlist).toBeDefined();
-        }));
-
-        it("fontList changePage", inject(function() {
-            $scope.changePage();
-            expect($scope.fontlist).toBeDefined();
-        }));
-
         /* services */
         it("expects fontsByLetter to return something", inject(function() {
-            url = "getfonts?filtered=false&letter=a&limit=15&page=0";
+            url = "getfonts?letter=a&limit=15&page=0";
             $httpBackend.whenGET(url).respond(200, 
                     {
                         'fontcount':80, 
@@ -82,16 +72,15 @@ describe("fontlist tests", function() {
 
         it("expects filteredFonts to work", inject(function() {
             /* these are default values from the service
-             * for some reason, this test won't work with pageArgs
-             * */
-
+              */
             url = "getfilteredfonts?"+
                 "category=Sans_serif&category=Serif&"+
                 "designer=asc&"+
+                "filtered=true&"+
                 "limit=15&"+
                 "name=asc&"+
                 "page=0&"+
-                "style=normal&style=italic&"+
+                "style=italic&"+
                 "subset=latin&subset=latin-ext&subset=menu&"+
                 "weight=400";
 
@@ -113,12 +102,22 @@ describe("fontlist tests", function() {
                         'fontscss':'@font-family:'
                     });
 
-            req = filteredFonts.get();
+            req = filteredFonts.get($scope.pageArgs);
             req.$promise.then(function(response) { 
                 expect(response.fontcount).toBeDefined();
                 expect(response.fontdata).toBeDefined();
                 expect(response.fontscss).toBeDefined();
             });
+        }));
+
+        it("fontList backToStart", inject(function() {
+            $scope.backToStart();
+            expect($scope.fontlist).toBeDefined();
+        }));
+
+        it("fontList changePage", inject(function() {
+            $scope.changePage();
+            expect($scope.fontlist).toBeDefined();
         }));
     });
 });
