@@ -2,7 +2,7 @@ public:
     filters: 'scss,cssmin'
     output: css/main.css
     contents:
-        - css/normalize.css
+        - vendor/normalize_css/normalize.css
         - Public/assets/scss/*.scss
 
 font_app:
@@ -14,12 +14,19 @@ font_app:
         - js/fontlist_controller.js
         - js/specimen_controller.js
 
-angular-js-min:
+angular:
     filters: 
-    output: vendor/angular_all.min.js
+    output: js/angular.min.js
     contents:
-        - vendor/angular/angular.min.js
-        - vendor/angular/angular-route.min.js
-        - vendor/angular/angular-resource.min.js
-        - vendor/angular/angular-sanitize.min.js
+    - vendor/angular/angular.min.js
+    - vendor/angular/angular-route.min.js
+    - vendor/angular/angular-resource.min.js
+    - vendor/angular/angular-sanitize.min.js
+    
 
+normalize_css:
+    filters: cssmin
+    output: css/normalize.css
+    contents:
+    - vendor/normalize_css/normalize.css
+    

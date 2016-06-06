@@ -136,6 +136,8 @@ class GetDeps(Command):
                 ftype = self.get_file_type(url) 
 
                 dest_dir = self.static_path.joinpath(name)
+                if not dest_dir.exists():
+                    dest_dir.mkdir()
                 self.save_or_unpack(ftype, dest_dir, url)
 
         self.tempf.close()
@@ -162,6 +164,8 @@ class GetDeps(Command):
                 if req.encoding:
                     self.encoding = req.encoding
 
+                self.tempf.seek(0)
+                self.tempf.truncate()
                 for chunk in req.iter_content(self.chunk):
                     self.tempf.write(chunk)
                 return True

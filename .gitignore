@@ -5,9 +5,10 @@ __pycache__
 *.pyc
 .webassets-cache
 angular_app*.js
+*.min.js
+*.css
 instance/dev_config.py
 notes.txt
-*/main.css
 *.cache
 colormap.html
 ~*
