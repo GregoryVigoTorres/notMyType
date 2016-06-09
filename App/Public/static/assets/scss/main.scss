@@ -326,7 +326,6 @@ $specnav-header-height: 3rem;
     @include specimen-nav-common;
     position: absolute;
     top: $specnav-header-height;
-    background-color: $gray5-transparent;
     height: 100%;
     padding-top: 1.5rem;
 
