@@ -2,12 +2,12 @@
     <style>{{ fontlist.fontscss }}</style>
     <nav>
         <h3>Not My Type</h3>
-        
+
         <form id="name-search">
-            <input 
-              type="text" 
-              name="name-search" 
-              placeholder="search by name" 
+            <input
+              type="text"
+              name="name-search"
+              placeholder="search by name (contains)"
               ng-model="pageArgs.nameSearchTerm">
             <button type="submit" ng-click="searchFontsByName()">go</button>
         </form>
@@ -47,7 +47,7 @@
                     <option value="900">900</option>
                 </select>
             </label>
-                
+
             <label class="has-menu">Style
                 <select name='bystyle' size='2' multiple=true ng-model="pageArgs.style">
                     <option value='normal' selected='true'>Normal</option>
@@ -139,7 +139,7 @@
 
     <div id="fontlist-container">
         <div ng-repeat="i in fontlist.fontdata track by $index" class='font-container'>
-            <span class="font-name" 
+            <span class="font-name"
                 style= "font-family: '{{ ::i.reg_font_face }}', sans-serif;">{{ ::i.name }}</span>
             <!-- <br><span>index: {{ $index+1+(pageArgs.page*fontlist.fontdata.length) }}</span> -->
             <table class="font-info">
@@ -162,8 +162,8 @@
             </table>
 
             <ul class='font-list'>
-                <li ng-repeat="font in i.fonts track by $index" 
-                    style="font-family: '{{ ::font.post_script_name }}', sans-serif; 
+                <li ng-repeat="font in i.fonts track by $index"
+                    style="font-family: '{{ ::font.post_script_name }}', sans-serif;
                             font-weight: {{ ::font.weight }};">
                     <a class="font-link" href="#/specimen/{{ ::font.id }}">{{ ::font.post_script_name }}</a>
                 </li>
@@ -182,8 +182,8 @@
                 </span>
                 <span>page {{ pageArgs.page+1 }}</span>
                 <span>&#8220;{{ fontlist.fontdata[0].name }}&#8221; to &#8220;{{ fontlist.fontdata[fontlist.fontdata.length-1].name }}&#8221;</span>
-                <span id='next' 
-                    ng-show="fontlist.fontcount - ((pageArgs.limit*pageArgs.page)+fontlist.fontdata.length) > 0" 
+                <span id='next'
+                    ng-show="fontlist.fontcount - ((pageArgs.limit*pageArgs.page)+fontlist.fontdata.length) > 0"
                     ng-click="changePage('next')">
                     next &gt;
                 </span>

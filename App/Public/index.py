@@ -46,16 +46,18 @@ def query_to_fontdata(fq, request):
 
 @public_bp.route('/searchFontsByName')
 def name_search():
-    """ Search Font, Font.name is fontmeta.name """
+    """
+    Search FontMeta names
+    because
+    Font.name and post_script_name give
+    too many irrelevant results
+    """
     if not request.args.get('nameSearchTerm'):
         return jsonify({'fontlist':['A search term is required']})
 
-    # search in fontmeta name and font names
     like_str = '%'+request.args['nameSearchTerm']+'%'
     fq = db.session.query(FontMeta).\
-            join(FontMeta.fonts).\
-            filter(or_(Font.name.ilike(like_str), Font.post_script_name.ilike(like_str))).\
-            options(contains_eager(FontMeta.fonts)).\
+            filter(FontMeta.name.ilike(like_str)).\
             order_by(FontMeta.name)
 
     fonts_data = query_to_fontdata(fq, request)
