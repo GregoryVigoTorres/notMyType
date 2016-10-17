@@ -1,7 +1,7 @@
 import logging
 
-from flask import (render_template, 
-                   request, 
+from flask import (render_template,
+                   request,
                    jsonify)
 
 from sqlalchemy import (or_, desc)
@@ -46,7 +46,7 @@ def query_to_fontdata(fq, request):
 
 @public_bp.route('/searchFontsByName')
 def name_search():
-    """ Search Font, Font.name is fontmeta.name """ 
+    """ Search Font, Font.name is fontmeta.name """
     if not request.args.get('nameSearchTerm'):
         return jsonify({'fontlist':['A search term is required']})
 
@@ -54,7 +54,7 @@ def name_search():
     like_str = '%'+request.args['nameSearchTerm']+'%'
     fq = db.session.query(FontMeta).\
             join(FontMeta.fonts).\
-            filter(or_(Font.name.like(like_str), Font.post_script_name.like(like_str))).\
+            filter(or_(Font.name.ilike(like_str), Font.post_script_name.ilike(like_str))).\
             options(contains_eager(FontMeta.fonts)).\
             order_by(FontMeta.name)
 
@@ -65,7 +65,7 @@ def name_search():
 
 @public_bp.route('/getfilteredfonts')
 def get_filtered_fonts():
-    """ fontOptions form 
+    """ fontOptions form
     """
     fq = db.session.query(FontMeta)
 
@@ -116,7 +116,7 @@ def get_filtered_fonts():
 
 @public_bp.route('/getfonts')
 def get_fonts():
-    """ ajax endpoint 
+    """ ajax endpoint
         return json with font info
         with offset from query params
     """
@@ -126,7 +126,7 @@ def get_fonts():
     letter = request.args.get('letter')
     if letter:
         fq = db.session.query(FontMeta).\
-                filter(FontMeta.name.like(letter+'%')).\
+                filter(FontMeta.name.ilike(letter+'%')).\
                 order_by(FontMeta.name)
         font_count = fq.count()
     else:
@@ -139,7 +139,7 @@ def get_fonts():
     # get @font-face for each font-family, either *Regular or only font
     for i in fontdata:
         if len(i['fonts']) > 1:
-            reg_fams = [j['post_script_name'] for j in i['fonts'] 
+            reg_fams = [j['post_script_name'] for j in i['fonts']
                         if 'Regular' in j['post_script_name']]
             if len(reg_fams):
                 i['reg_font_face'] = reg_fams[0]
@@ -162,7 +162,7 @@ def get_fonts():
 
 @public_bp.route('/')
 def index():
-    """ Public front page 
+    """ Public front page
         this is the base html for the angular app
     """
     return render_template('base.html')
