@@ -18,29 +18,21 @@ from App.core import Base, db
 from App.models.public import FontMeta, Font, Category
 
 logger = logging.getLogger(__name__)
-logger.parent.removeHandler(logger.parent.handlers[0])
-logger.parent.propagate =False
-
-lh = logging.StreamHandler()
-lh.setLevel(logging.DEBUG)
-logformat = logging.Formatter('%(levelname)s'+Fore.CYAN+' in %(funcName)s [%(lineno)i] -'+Fore.YELLOW+' %(message)s')
-lh.setFormatter(logformat)
-logger.addHandler(lh)
 
 class InitDB(Command):
     """ create tables """
     def run(self):
         try:
             with current_app.app_context() as context:
-                logger.info(Fore+CYAN+current_app.config.get('SQLALCHEMY_DATABASE_URI'))
+                logger.info(current_app.config.get('SQLALCHEMY_DATABASE_URI'))
                 db.create_all(app=current_app)
-                logger.info(Fore.CYAN+'Database Tables Created')
+                logger.info('Database Tables Created')
         except Exception as E:
-            logger.warning(Fore.RED+'ERROR! {}'.format(E))
+            logger.warning('ERROR! {}'.format(E))
 
 class UpdateDB(Command):
     """ parse METADATA.pb files and populate database """
-    @staticmethod
+    # @staticmethod
     def _parse_pb(self, data):
         """ data is str with METADATA.pb content """
         font_info = False
@@ -66,49 +58,62 @@ class UpdateDB(Command):
         ## can be many subsets, and fonts
         return meta
 
-    @staticmethod
-    def _save_to_db(self, meta, verbose=False):
-        """ dict with metadata """
-        fonts = meta.pop('fonts')
-        # get or create font_objs
+    def get_or_create_font_objects(self, meta):
         font_objs = []
-        for i in fonts:
+        for i in meta['fonts']:
             f = db.session.query(Font).filter_by(post_script_name=i['post_script_name']).first()
-            if verbose:
-                logger.info('found font {}'.format(f))
             if not f:
                 f = Font(**i)
-                logger.info('will create font {}'.format(f))
-
+                logger.info('New font {}'.format(f))
             font_objs.append(f)
-            db.session.add(f)
 
-        # get or create category
+        return font_objs
+
+    def get_or_create_category(self, meta):
         category_obj = db.session.query(Category).filter(Category.Category==meta['category']).first()
         if not category_obj:
-            meta['category'] = Category(Category=meta['category'])
-        else:
-            meta['category'] = category_obj
+            category_obj = Category(Category=meta['category'])
+            logging.info('Created category {}'.format(category_obj))
+        return category_obj
 
-        # get or create fontmeta
-        md = db.session.query(FontMeta).filter_by(name=meta['name']).first()
-        if md is None:
-            if verbose:
-                logger.info('{} created'.format(md))
-            md = FontMeta(**meta)
+    def _save_to_db(self, meta, verbose=False):
+        """
+        metadata format:
+        {'license': 'UFL',
+         'designer': 'Dalton Maag',
+         'subsets': ['menu',
+                     'cyrillic',
+                     'cyrillic-ext',
+                     'greek',
+                     'greek-ext',
+                     'latin',
+                     'latin-ext'],
+         'category': 'SANS_SERIF',
+         'name': 'Ubuntu',
+         'date_added': '2010-12-15'}
+        """
+        fontmeta = db.session.query(FontMeta).filter_by(name=meta['name']).first()
+        if fontmeta is None:
+            fontmeta = FontMeta(name=meta['name'],
+                                license=meta['license'],
+                                designer=meta['designer'],
+                                date_added=meta['date_added'])
 
-        db.session.add(md)
+        fonts = self.get_or_create_font_objects(meta)
+        fontmeta.fonts = fonts
+        category = self.get_or_create_category(meta)
+        fontmeta.category = category
 
-        font_names = [i.full_name for i in md.fonts]
-        for i in font_objs:
-            if not i.full_name in font_names:
-                if verbose:
-                    logger.info('{} added to {}'.format(i, md))
-                md.fonts.append(i)
+        with db.session.no_autoflush:
+            db.session.add(fontmeta)
 
-        db.session.commit()
-        logger.info('{} has been updated'.format(md))
-        logger.info('fonts: {}'.format(md.fonts))
+
+        try:
+            db.session.commit()
+            logging.info('{} Saved'.format(fontmeta))
+        except Exception as E:
+            print(E)
+
 
     def run(self):
         """ parse .pb files in Gfont root dir """
@@ -126,10 +131,10 @@ class FixFont(Command):
     def run(self):
         """ Fixes fontmeta objects with orphan fonts
             i.e. the fonts have been detached from their fontmeta
-            
+
             Finds fontmeta by name
 
-            If you need the names of fonts with orphans, 
+            If you need the names of fonts with orphans,
             run the db integrity tests.
 
         """
