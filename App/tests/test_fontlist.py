@@ -18,7 +18,7 @@ def test_paginated_get_fonts(client):
     assert resp.json.get('fontdata')
 
 def test_get_fonts_by_letter(client):
-    resp = client.get(url_for('Public.get_fonts', page=0, letter='s'))
+    resp = client.get(url_for('Public.get_fonts', page=0, letter='S'))
     assert resp.status_code == 200
     assert resp.json.get('fontscss')
     assert resp.json.get('fontcount')

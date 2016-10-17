@@ -3,6 +3,7 @@ import pytest
 from App.core import db
 from App.models.public import Font, FontMeta
 
+@pytest.mark.xfail
 def test_font_orphans(client):
     """ There could be FontMeta items with no corresponding Font items """
     fontmeta = db.session.query(FontMeta).all()
