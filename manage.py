@@ -23,7 +23,7 @@ manager.add_command('fixfont', FixFont())
 manager.add_command('test', RunTests)
 
 if __name__ == '__main__':
-    logging.basicConfig(format='[notMyType][%(levelname)s] %(lineno)d in %(funcName)s - {}%(message)s'.format(Fore.CYAN), level=logging.DEBUG)
+    log_fmt = '[notMyType][%(levelname)s] %(lineno)d in %(funcName)s - %(message)s'
+    logging.basicConfig(format=log_fmt,
+                        level=logging.DEBUG)
     manager.run()
-
-

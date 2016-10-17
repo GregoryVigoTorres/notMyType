@@ -8,7 +8,7 @@ from App.core import db
 
 class JSONType(types.TypeDecorator):
     """ Very basic type to store JSON as VARCHAR """
-    impl = types.VARCHAR 
+    impl = types.VARCHAR
 
     def process_bind_param(self, value, dialect):
         return json.dumps(value)
@@ -25,7 +25,7 @@ class Font(db.Model):
     post_script_name = db.Column(db.String(255), unique=True)
     weight = db.Column(db.Integer)
     filename = db.Column(db.String(255), nullable=False)
-    copyright = db.Column(db.String(255))
+    copyright = db.Column(db.Text())
     style = db.Column(db.String(255))
 
     name = db.Column(db.String(255), db.ForeignKey('fontmeta.name'))
@@ -50,7 +50,7 @@ class Category(db.Model):
 
     id = db.Column('id', db.Integer(), primary_key=True)
     Category = db.Column('category', db.String(255), nullable=False, unique=True)
-    category_rel = relationship('FontMeta', backref='category') 
+    category_rel = relationship('FontMeta', backref='category')
 
     def __repr__(self):
         return '{}'.format(self.Category)
@@ -64,15 +64,15 @@ class FontMeta(db.Model):
     license = db.Column(db.String(255)) ## there should be a link to license text somewhere
     date_added = db.Column(db.Date)
 
-    category_ref = db.Column('category', 
-                             db.String(255), 
-                             db.ForeignKey('categories.category'), 
+    category_ref = db.Column('category',
+                             db.String(255),
+                             db.ForeignKey('categories.category'),
                              nullable=False)
 
     font_id = db.Column(db.Integer(), db.ForeignKey('fonts.id'))
 
-    fonts = db.relationship('Font', 
-                            # foreign_keys=[font_id], 
+    fonts = db.relationship('Font',
+                            # foreign_keys=[font_id],
                             primaryjoin='Font.name==FontMeta.name',
                             uselist=True,
                             single_parent=True,
@@ -94,4 +94,4 @@ class FontMeta(db.Model):
         return d
 
     def __repr__(self):
-        return '<[{}]{}[{}]>'.format(self.id, self.name, self.category)
+        return '<FontMeta [{}]{}.{}>'.format(self.id, self.name, self.category)
