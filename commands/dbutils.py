@@ -64,7 +64,9 @@ class UpdateDB(Command):
             f = db.session.query(Font).filter_by(post_script_name=i['post_script_name']).first()
             if not f:
                 f = Font(**i)
-                logger.info('New font {}'.format(f))
+                logger.info('{}New font {}'.format(Fore.RED, f))
+            # else:
+            #     logger.info('Font found {}'.format(f))
             font_objs.append(f)
 
         return font_objs
@@ -78,7 +80,7 @@ class UpdateDB(Command):
 
     def _save_to_db(self, meta, verbose=False):
         """
-        metadata format:
+        metadata format e.g.:
         {'license': 'UFL',
          'designer': 'Dalton Maag',
          'subsets': ['menu',
@@ -92,6 +94,8 @@ class UpdateDB(Command):
          'name': 'Ubuntu',
          'date_added': '2010-12-15'}
         """
+        db.session.expire_all()
+
         fontmeta = db.session.query(FontMeta).filter_by(name=meta['name']).first()
         if fontmeta is None:
             fontmeta = FontMeta(name=meta['name'],
@@ -100,20 +104,40 @@ class UpdateDB(Command):
                                 date_added=meta['date_added'])
 
         fonts = self.get_or_create_font_objects(meta)
-        fontmeta.fonts = fonts
+
+        # some fonts appear in more than one metadata entry
+        # Some fontmeta entries don't have any fonts
+        # New fonts are still not associated with a fontmeta entry
+        fonts_ = []
+        for i in fonts:
+            if i.fontmeta and i.fontmeta.id == fontmeta.id:
+                fonts_.append(i)
+            if i.fontmeta is None:
+                fonts_.append(i)
+
+        if len(fonts_) == 0:
+            logging.warning('{}{} has no fonts'.format(Fore.RED, fontmeta))
+            insp = inspect(fontmeta)
+            if insp.persistent:
+                c = input('Delete? y/n >> ')
+                if c == 'y':
+                    db.session.delete(fontmeta)
+                    db.session.commit()
+                return None
+        else:
+            fontmeta.fonts = fonts_
+
         category = self.get_or_create_category(meta)
         fontmeta.category = category
 
-        with db.session.no_autoflush:
-            db.session.add(fontmeta)
-
-
         try:
-            db.session.commit()
+            with db.session.no_autoflush:
+                db.session.add(fontmeta)
+                db.session.commit()
             logging.info('{} Saved'.format(fontmeta))
         except Exception as E:
-            print(E)
-
+            logging.warning(fontmeta)
+            logging.warning(repr(E))
 
     def run(self):
         """ parse .pb files in Gfont root dir """
