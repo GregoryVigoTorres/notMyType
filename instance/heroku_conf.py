@@ -1,12 +1,5 @@
 import os
 
-# db_conf = {'username':'notmytypeapp',
-#            'password': 'WetIcnevaitPommoubCoygdimGoygyic',
-#            'host':'localhost',
-#            'port': 5432,
-#            'dbname':'notmytype'}
-#
-# SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{username}:{password}@{host}:{port}/{dbname}'.format(**db_conf)
 if os.environ.get('DATABASE_URL'):
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 else:
