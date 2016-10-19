@@ -75,6 +75,7 @@ class FontMeta(db.Model):
                             # foreign_keys=[font_id],
                             primaryjoin='Font.name==FontMeta.name',
                             uselist=True,
+                            backref='fontmeta',
                             single_parent=True,
                             cascade="all, delete-orphan",
                             order_by='Font.post_script_name')
