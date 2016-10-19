@@ -1,13 +1,21 @@
-# notMyType #
+# Not My Type #
 
 Browse and download free fonts.
 
-The internet probably doens't need another fonts website, but I like mine because it has a simple clean interface and doesn't try to implement too many features you'll probably never use.
+
+The goal of this project was to build a straight-forward interface for searching and downloading fonts, without too many features that most people probably don't need.
 
 
-All of the fonts currently in the database are from 
-    (https://github.com/google/fonts)
-and are released under free font licenses.
+A live version can be found at (notmytype.heroku.com)
+
+
+The font database was built from (https://github.com/google/fonts)
+
+All the fonts have free licenses.
+
+
+This project was built with *Flask*, *SQLALchemy*, *PostgreSQL* (migrated from MariaDB) and Angular 1.5
+
 
 MIT license
 copyright Gregory Vigo Torres, 2016
