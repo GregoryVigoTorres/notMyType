@@ -1,4 +1,4 @@
 [submodule "Gfont"]
-  path = "Gfont"
+  path = "App/Gfont"
   url = https://github.com/GregoryVigoTorres/fonts.git
 
