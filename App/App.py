@@ -38,7 +38,4 @@ def create_app(config=None):
     assets_env = Environment(app=app)
     assets_env.from_yaml('assets.yml')
 
-    # print(app.url_map)
-    # print(app.blueprints)
-
     return app
